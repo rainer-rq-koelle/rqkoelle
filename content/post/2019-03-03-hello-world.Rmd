@@ -40,3 +40,7 @@ blogdown::hugo_version()
 ```
 
 I got the following result: '0.54.0'. As you can see, changing the value in netlify to this HUGO_VERSION made my day and my site works properly.
+
+
+
+In principle, I followed the steps laid out by [Alison](https://alison.rbind.io/post/up-and-running-with-blogdown/#build-your-site-in-rstudio). 
