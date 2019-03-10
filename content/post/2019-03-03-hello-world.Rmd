@@ -43,4 +43,35 @@ I got the following result: '0.54.0'. As you can see, changing the value in netl
 
 
 
-In principle, I followed the steps laid out by [Alison](https://alison.rbind.io/post/up-and-running-with-blogdown/#build-your-site-in-rstudio). 
+In principle, I followed the steps laid out by [Alison](https://alison.rbind.io/post/up-and-running-with-blogdown/#build-your-site-in-rstudio).
+
+
+# Setup
+
+To get going install devtools and blogdown
+```{r, eval=FALSE}
+if (!requireNamespace("devtools")) install.packages("devtools")
+devtools::install_github("rstudio/blogdown")
+```
+
+As a second step install hugo
+```{r, eval=FALSE}
+blogdown::install_hugo()
+```
+
+By default, blogdown installs the latest version of hugo. 
+You may set the version parameter of the hugos installation.
+
+The console output will look like the following:
+```
+blogdown::install_hugo()
+The latest Hugo version is 0.54.0
+trying URL 'https://github.com/gohugoio/hugo/releases/download/v0.54.0/hugo_extended_0.54.0_Linux-64bit.tar.gz'
+Content type 'application/octet-stream' length 8714754 bytes (8.3 MB)
+==================================================
+downloaded 8.3 MB
+
+Hugo has been installed to /home/rstudio-user/bin
+```
+
+Make sure to note the Hugo version!
