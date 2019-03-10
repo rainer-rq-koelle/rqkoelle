@@ -1,0 +1,54 @@
+---
+title: Blogdown writing content tricks
+author: RQ
+date: '2019-03-10'
+slug: blogdown-writing-content-tricks
+categories: []
+tags:
+  - R Markdown
+  - blogdown
+  - how-to
+image:
+  caption: ''
+  focal_point: ''
+output:
+  blogdown::html_page:
+    toc: true
+---
+
+This blogpost is primarily written for my future self. I am notoriously forgettting how things are done.
+This is partly linked to me playing around with too many things at the same time or simply not having used a specific feature for a while.
+This page hopefully helps filling in as an aide memoire.
+
+## Displaying Code Chunks Without Executing Them 
+
+### Code Chunk Blocks
+
+[Yihui](https://github.com/yihui/knitr-examples/blob/master/065-rmd-chunk.Rmd) provides examples for displaying verbatim code chunks.
+The trick is to destroy the header of the code chunk by inserting an what they call an empty string as inline r code.
+I rather say, insert two tick marks as inline code after the chunk header as shown here `` `r
+''` ``. These will create the empty string.
+
+```{r eval=TRUE}`r ''`
+n = 10
+rnorm(x)
+```
+
+![code chunk header with inline r code for two ticks](/post/2019-03-10-blogdown-writing-content-tricks_files/how-to-display-code-chunk.png)
+
+In order to have the code chunks displayed as a block, intend the whole block by inserting 4 spaces.
+
+    ```{r eval = TRUE}`r ''`
+    n = 10
+    rnorm(x)
+    ```
+
+### Inline R Code
+
+If you want to display inline r code, c.f. above, [Yihui's FAQ #7](https://yihui.name/knitr/faq/) offers 2 ways of doing this:
+
+1. Single backticks can be escaped by double backticks. In order to trick R into not evaluating the inline code, insert a line break immediately after the first backtick and the folloing r `` `r ``. Note: if you check the Rmd of this post, you can see this is how I displayed the two tick marks as inline code above :). As an example, this might help `` `r
+1 + 1 ` ``. The inline r code is shown verbatim without executing it.
+1. Alternatively, knitr() offers an inline expression function, i.e. `knitr::inline_expr()`. With this you can write `` `r knitr::inline_expr("1 + 1")` ``. 
+
+
