@@ -6,7 +6,6 @@
 
 # Title of your site
 title = "RQ's home on the web!"
-subtitle = "I do not know where the journey will end, but I know where to start ..."
 
 # The URL of your site.
 # End your URL with a `/` trailing slash, e.g. `https://example.com/`.
@@ -66,3 +65,7 @@ preserveTaxonomyNames = true
   category = "categories"
   publication_type = "publication_types"
   author = "authors"
+
+# sefl-defined parameters
+[params]
+  subtitle = "I do not know where the journey will end, but I know where to start ..."

@@ -1,0 +1,40 @@
+---
+title: My Theme Tweaks
+author: RQ
+date: '2019-03-06'
+slug: my-theme-tweaks
+categories: []
+tags:
+  - Academic
+  - how-to
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+
+<p>My journey with the Academic Theme included a few tweaks.</p>
+<ul>
+<li>adding a subtitle to the home page</li>
+</ul>
+<div id="subtitle-on-home-page" class="section level2">
+<h2>Subtitle on Home Page</h2>
+<p>Possibly, because I could not think of a better page title than “my home on the web!”, I had the urge to add a subtitle. Amazingly, the Academic theme does not support this per se.</p>
+<p>I failed to find something useful on google and in particular for the Academic theme, but I had fading memories about reading about self-defined parameters elsewhere. In the end, I started scanning over some of the hugo documentation, i.e. <a href="https://gohugo.io/variables/site/">Site Variables and Params</a>. The section <code>.Site.Params</code> elaborates on how to define and insert a description parameter. The example shows also how to include this in the meta data tag using a <code>{{if .IsHome}}</code> call.</p>
+<p>Accordingly, I did the following</p>
+<ol style="list-style-type: decimal">
+<li>hugo and the Academic theme works with certain lookup concept. I therefore created a <code>layout/partials</code> subfolder in my site root.</li>
+<li>to tweak the navbar, I copied the navbar.html from <code>theme/hugo-academics/layouts/partials</code> to the aforementioned <code>layouts/partials</code> folder</li>
+<li><p>defined a parameter in <code>config.toml</code> by adding the following code to the end of the config.toml:</p>
+<pre><code># sefl-defined parameters
+[params]
+  subtitle = &quot;I do not know where the journey will end, but I know where to start ...&quot;</code></pre></li>
+<li><p>in the copied navbar.html, I inserted the following line of code:</p>
+<pre><code>&lt;br&gt; {{if .IsHome}}{{ $.Site.Params.subtitle }}{{end}} </code></pre></li>
+</ol>
+</div>
+<div id="conclusions" class="section level2">
+<h2>Conclusions</h2>
+<p>When starting this post, I did one tweak by inserting a subtitle in the navbar.html moved to the specific lookup folder. I scanned over a serious of webpages and blogposts or stackoverflow questions without claiming that I understand fully what I have done. A key point I need to tackle - if I really want to understand this - is to read up more on hugo.</p>
+</div>

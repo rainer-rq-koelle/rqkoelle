@@ -1,0 +1,52 @@
+---
+title: My Theme Tweaks
+author: RQ
+date: '2019-03-06'
+slug: my-theme-tweaks
+categories: []
+tags:
+  - Academic
+  - how-to
+image:
+  caption: ''
+  focal_point: ''
+---
+
+My journey with the Academic Theme included a few tweaks.
+
+* adding a subtitle to the home page
+
+
+
+## Subtitle on Home Page
+
+Possibly, because I could not think of a better page title than "my home on the web!", I had the urge to add a subtitle.
+Amazingly, the Academic theme does not support this per se.
+
+I failed to find something useful on google and in particular for the Academic theme, but I had fading memories about reading about self-defined parameters elsewhere.
+In the end, I started scanning over some of the hugo documentation, i.e. [Site Variables and Params](https://gohugo.io/variables/site/).
+The section `.Site.Params` elaborates on how to define and insert a description parameter.
+The example shows also how to include this in the meta data tag using a `{{if .IsHome}}` call.
+
+Accordingly, I did the following
+
+1. hugo and the Academic theme works with certain lookup concept. I therefore created a `layout/partials` subfolder in my site root.
+1. to tweak the navbar, I copied the navbar.html from `theme/hugo-academics/layouts/partials` to the aforementioned `layouts/partials` folder
+1. defined a parameter in `config.toml` by adding the following code to the end of the config.toml:
+    ```
+    # sefl-defined parameters
+    [params]
+      subtitle = "I do not know where the journey will end, but I know where to start ..."
+    ```
+
+1. in the copied navbar.html, I inserted the following line of code: 
+    ```
+    <br> {{if .IsHome}}{{ $.Site.Params.subtitle }}{{end}} 
+    ```
+
+## Conclusions
+
+When starting this post, I did one tweak by inserting a subtitle in the navbar.html moved to the specific lookup folder.
+I scanned over a serious of webpages and blogposts or stackoverflow questions without claiming that I understand fully what I have done.
+A key point I need to tackle - if I really want to understand this - is to read up more on hugo. 
+
