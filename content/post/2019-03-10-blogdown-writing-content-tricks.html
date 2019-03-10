@@ -1,0 +1,43 @@
+---
+title: Blogdown writing content tricks
+author: RQ
+date: '2019-03-10'
+slug: blogdown-writing-content-tricks
+categories: []
+tags:
+  - R Markdown
+  - blogdown
+  - how-to
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+
+<p>This blogpost is primarily written for my future self. I am notoriously forgettting how things are done. This is partly linked to me playing around with too many things at the same time or simply not having used a specific feature for a while. This page hopefully helps filling in as an aide memoire.</p>
+<div id="displaying-code-chunks-without-executing-them" class="section level2">
+<h2>Displaying Code Chunks Without Executing Them</h2>
+<div id="code-chunk-blocks" class="section level3">
+<h3>Code Chunk Blocks</h3>
+<p><a href="https://github.com/yihui/knitr-examples/blob/master/065-rmd-chunk.Rmd">Yihui</a> provides examples for displaying verbatim code chunks. The trick is to destroy the header of the code chunk by inserting an what they call an empty string as inline r code. I rather say, insert two tick marks as inline code after the chunk header as shown here <code>`r ''`</code>. These will create the empty string.</p>
+<p><code>{r eval=TRUE} n = 10 rnorm(x)</code></p>
+<div class="figure">
+<img src="/post/2019-03-10-blogdown-writing-content-tricks_files/how-to-display-code-chunk.png" alt="code chunk header with inline r code for two ticks" />
+<p class="caption">code chunk header with inline r code for two ticks</p>
+</div>
+<p>In order to have the code chunks displayed as a block, intend the whole block by inserting 4 spaces.</p>
+<pre><code>```{r eval = TRUE}
+n = 10
+rnorm(x)
+```</code></pre>
+</div>
+<div id="inline-r-code" class="section level3">
+<h3>Inline R Code</h3>
+<p>If you want to display inline r code, c.f. above, <a href="https://yihui.name/knitr/faq/">Yihui’s FAQ #7</a> offers 2 ways of doing this:</p>
+<ol style="list-style-type: decimal">
+<li>Single backticks can be escaped by double backticks. In order to trick R into not evaluating the inline code, insert a line break immediately after the first backtick and the folloing r <code>`r</code>. Note: if you check the Rmd of this post, you can see this is how I displayed the two tick marks as inline code above :). As an example, this might help <code>`r 1 + 1 `</code>. The inline r code is shown verbatim without executing it.</li>
+<li>Alternatively, knitr() offers an inline expression function, i.e. <code>knitr::inline_expr()</code>. With this you can write <code>`r 1 + 1`</code>.</li>
+</ol>
+</div>
+</div>

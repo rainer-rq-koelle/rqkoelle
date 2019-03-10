@@ -11,9 +11,6 @@ tags:
 image:
   caption: ''
   focal_point: ''
-output:
-  blogdown::html_page:
-    toc: true
 ---
 
 This blogpost is primarily written for my future self. I am notoriously forgettting how things are done.

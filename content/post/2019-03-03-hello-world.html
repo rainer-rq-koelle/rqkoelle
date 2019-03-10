@@ -12,11 +12,8 @@ image:
 
 
 
-<p>This is my very first blog post using the academic layout.
-I hope, I can finally fix the problem and run it.</p>
-<p>In principle I followed the great “up and running” tutorial.
-However, I ran into 2 major issues that made me curse for a while.
-Hence, I put this upfront. Make sure you recall this.</p>
+<p>This is my very first blog post using the academic layout. I hope, I can finally fix the problem and run it.</p>
+<p>In principle I followed the great “up and running” tutorial. However, I ran into 2 major issues that made me curse for a while. Hence, I put this upfront. Make sure you recall this.</p>
 <ol style="list-style-type: decimal">
 <li>following the initial installation and some adaptation, RStudio froze when I tried to commit and push to github. There are various discussions on the internet, but none really helped me. If you read some of the tutorials, you will also realise that quite some people use the command line for the initial git operations. Long story short: Do not do your first commit and push with RStudio. Simply open the git shell and type</li>
 </ol>
@@ -26,11 +23,9 @@ git push origin master</code></pre>
 <p>you will see quite some files flying by. This seems to be the source of the problem. The RStudio git support seems to hang up, if the commit comprises a high number of files.</p>
 <p>Note: apparently, you can also use RStudio push (arrow up), once you did the staging and commit in the shell.</p>
 <ol start="2" style="list-style-type: decimal">
-<li>netlify continued deployment: I have to admit this was a bit of a lapse on my side. I did not pay too much attention to what hugo version was installed on my development computer. When configuring netlify, I used the options given (in my case HUGO_VERSION with a value of 0.42).
-The deploys failed on netlify while on my computer all was running and displaying nicely :(</li>
+<li>netlify continued deployment: I have to admit this was a bit of a lapse on my side. I did not pay too much attention to what hugo version was installed on my development computer. When configuring netlify, I used the options given (in my case HUGO_VERSION with a value of 0.42). The deploys failed on netlify while on my computer all was running and displaying nicely :(</li>
 </ol>
-<p>I had to google for quite a while before coming across <a href="http://www.katherinescranton.com/post/building-my-website-with-blogdown/">Katie Scranton’s blog</a>.
-Katie referred to cross-checking the hugo version with</p>
+<p>I had to google for quite a while before coming across <a href="http://www.katherinescranton.com/post/building-my-website-with-blogdown/">Katie Scranton’s blog</a>. Katie referred to cross-checking the hugo version with</p>
 <pre><code>blogdown::hugo_version()</code></pre>
 <p>I got the following result: ‘0.54.0’. As you can see, changing the value in netlify to this HUGO_VERSION made my day and my site works properly.</p>
 <p>In principle, I followed the steps laid out by <a href="https://alison.rbind.io/post/up-and-running-with-blogdown/#build-your-site-in-rstudio">Alison</a>.</p>
@@ -41,8 +36,7 @@ Katie referred to cross-checking the hugo version with</p>
 devtools::install_github(&quot;rstudio/blogdown&quot;)</code></pre>
 <p>As a second step install hugo</p>
 <pre class="r"><code>blogdown::install_hugo()</code></pre>
-<p>By default, blogdown installs the latest version of hugo.
-You may set the version parameter of the hugos installation.</p>
+<p>By default, blogdown installs the latest version of hugo. You may set the version parameter of the hugos installation.</p>
 <p>The console output will look like the following:</p>
 <pre><code>blogdown::install_hugo()
 The latest Hugo version is 0.54.0
