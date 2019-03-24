@@ -53,6 +53,26 @@ bibliography: [chapter-SecMS-bib.bib]
 ---</code></pre>
 <p>Redndering to pdf works as a charm. Ditto for MS Word (if needed).</p>
 </div>
+<div id="including-and-cross-referencing-graphics" class="section level2">
+<h2>Including and Cross-Referencing Graphics</h2>
+<p>There are 3 parts to using a graphic</p>
+<ul>
+<li>including the graphic</li>
+<li>definition of the caption</li>
+<li>cross-referencing the graphic</li>
+</ul>
+<p>The following is a paste-and-copy skeleton.</p>
+<pre><code>(ref:cool-caption) This is my cool caption text
+
+    ```{r cool-caption, fig.cap=&quot;(ref:cool-caption)&quot;, fig.height=4, echo=FALSE}
+    knitr::include_graphics(&quot;figures/my-cool-figure.png&quot;)
+    ```
+
+Lorem ipsum blablabla ... c.f. Fig. \@ref(fig:cool-caption))</code></pre>
+<p>Conceptually, the r-chunk label can be different which in turn requires the <code>\@ref()</code> part to link to the different label.
+To avoid confustion, simply use the same label and refernce pointer.
+Note that the caption reference is <code>(ref: ...)</code> while the refernce to the figure is <code>\@ref(fig: ...)</code> :)</p>
+</div>
 <div id="bibs" class="section level2">
 <h2>Bibs</h2>
 <p>It depends a bit on the paper/report and workflow.

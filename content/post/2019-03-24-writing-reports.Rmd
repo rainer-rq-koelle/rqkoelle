@@ -62,6 +62,30 @@ bibliography: [chapter-SecMS-bib.bib]
 
 Redndering to pdf works as a charm. Ditto for MS Word (if needed).
 
+## Including and Cross-Referencing Graphics
+
+There are 3 parts to using a graphic
+
+* including the graphic
+* definition of the caption
+* cross-referencing the graphic
+
+The following is a paste-and-copy skeleton.
+
+```
+(ref:cool-caption) This is my cool caption text
+
+    ```{r cool-caption, fig.cap="(ref:cool-caption)", fig.height=4, echo=FALSE}`r ''`
+    knitr::include_graphics("figures/my-cool-figure.png")
+    ```
+
+Lorem ipsum blablabla ... c.f. Fig. \@ref(fig:cool-caption))
+```
+
+Conceptually, the r-chunk label can be different which in turn requires the `\@ref()` part to link to the different label.
+To avoid confustion, simply use the same label and refernce pointer.
+Note that the caption reference is `(ref: ...)` while the refernce to the figure is `\@ref(fig: ...)` :)
+
 ## Bibs
 
 It depends a bit on the paper/report and workflow.
