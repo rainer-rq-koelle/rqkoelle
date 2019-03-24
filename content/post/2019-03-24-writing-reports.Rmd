@@ -1,0 +1,82 @@
+---
+title: Writing Reports
+author: RQ
+date: '2019-03-24'
+slug: writing-reports
+categories: []
+tags: []
+image:
+  caption: ''
+  focal_point: ''
+---
+
+# Overview 
+
+This post is an aide-memoire for my future me. Throughout the recent months/years I have subsequently moved my writing to RMarkdown. 
+With the advent of bookdown and blogdown various things have become smoother over time.
+Nonetheless, I find myself going back to my past projects to install the same (or similar) set of packages supporting the writing, copy the YAML, etc.
+
+This post shoud save me from going back to past work, but have a centralised place for paste-and-copy the *very first steps* of all my projects.
+
+Over time, I want to develop this post into a recipe.
+
+When I speak about writing, I predominantly speak about 
+
+* research papers for conferences
+* technical reports - longer forms of papers ranging from book chapters to longer research reports.
+* blogging with blogdown - that might actually go elsewhere.
+
+# RMarkdown
+
+RMarkdown is pretty cool and it is too straight forward to add more here.
+
+# Technical Reports
+
+`bookdown` has overcome a lot of the knitr/RMarkdown shortcomings in terms of cross-referencing.
+For any type of writing the 'long formats' are actually my default go-to.
+
+## Installation
+
+obviously RMarkdown and bookdown. For RMarkdown open a new file in RMarkdown in RStudio. If not installed, this will result in the (automatic) installation of the required packages.
+
+```
+install.packages("bookdown)
+```
+
+Dependent on the study complement with tidyverse, lubridate, ggplot2
+
+## YAML - Document Set-Up
+
+This is my minimal standard YAML
+
+```
+---
+title: "Security Management System"
+author: "RQ"
+date: "19. March 2019"
+output:
+  bookdown::pdf_document2
+bibliography: [chapter-SecMS-bib.bib]
+---
+```
+
+Redndering to pdf works as a charm. Ditto for MS Word (if needed).
+
+## Bibs
+
+It depends a bit on the paper/report and workflow.
+Conceptually, a bibtex file entails the references to the cited material.
+Bibtex as such has a multitude of entries for all sort of things ranging from books to webpages.
+Bibtex is not straightforward, but within certain limits one can easily handle the bib by hand.
+For example, I copy the bibtex entry for a reference from scholar.google (or other sources, e.g. IEEE).
+
+!!! If you do bibtex by hand, with the exception of the last entry, check for the comma at the end of each value line!
+
+For more sophisticated work and bibs the use of a Reference Manager Tool is strongly recommended. 
+Zotero is a great tool. If offers some nice functionality.
+Amongst others, one can automatically update a (sub-)collection (read: biblio for your paper). Storing the (sub-)collection in the respecive project folder/repo offers a great workflow for managing references while you go and keep and maintain them in one application.
+
+My aforementioned doing-it-by-hand-approach is not completely off. If hooked up with Zotero, Zotero detects a changed repo and will also read in the changed information.
+If not hooked up with Zotero, the resulting project bib can be readily read in and stored.
+
+Thus, the benefit of going for the Zotero-subcollection approach is that one does not need to check for the respective bibtex formats for a reference, and there is no double work for references already stored in the (master) collection.
