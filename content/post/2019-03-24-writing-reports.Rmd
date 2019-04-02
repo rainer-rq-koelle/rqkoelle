@@ -112,13 +112,13 @@ Thus, from time to time, you will have to revert to this output format.
 
 RMarkdown supports a few nice gimmicks that also works with MS Word.
 One of the nicer things is the (re-)use of a specific Word template.
-This could be set as an option in the YAML header:
+Such a template file can be set as an option in the YAML header:
 
 ```
 ---
 title: "My word document"
 output:
   word_document:
-    reference: my-template-file-name.docx
+    reference_docx: my-template-file-name.docx
 --- 
 ```
