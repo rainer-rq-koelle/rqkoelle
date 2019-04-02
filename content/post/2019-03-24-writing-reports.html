@@ -89,3 +89,17 @@ If not hooked up with Zotero, the resulting project bib can be readily read in a
 <p>Thus, the benefit of going for the Zotero-subcollection approach is that one does not need to check for the respective bibtex formats for a reference, and there is no double work for references already stored in the (master) collection.</p>
 </div>
 </div>
+<div id="working-with-ms-word" class="section level1">
+<h1>Working with MS Word</h1>
+<p>Let’s face it. We live in a world where people around us will continue to use Microsoft Word no matter what.
+Thus, from time to time, you will have to revert to this output format.</p>
+<p>RMarkdown supports a few nice gimmicks that also works with MS Word.
+One of the nicer things is the (re-)use of a specific Word template.
+This could be set as an option in the YAML header:</p>
+<pre><code>---
+title: &quot;My word document&quot;
+output:
+  word_document:
+    reference: my-template-file-name.docx
+--- </code></pre>
+</div>
