@@ -1,0 +1,34 @@
+---
+title: Aerodrome charts with R and OSM
+author: RQ
+date: '2020-01-08'
+slug: aerodrome-charts-with-r-and-osm
+categories: []
+tags:
+  - plot
+  - R Markdown
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+
+<p>During my day-time job I deal with operational performance at airports.
+One recurring graphical requirement is to plot the aerodrome layout.
+It follows from this post that there is no ready-out-of-the-box solution for this task.</p>
+<p>OpenStreetMap provides geographical information organised in layers.
+These layers can be querried for further processing.</p>
+<p>The following code snippets shows the OSM query for extracting the feature <strong>aeroway</strong> and associated elements such as apron, gate, etc.<br />
+Consult the documentation to learn more about these element labels.</p>
+<pre class="r"><code>bb_lonlat &lt;- c(-0.223915,51.141733,-0.155851,51.165738)
+apt_icao  &lt;- &quot;EGKK&quot;
+apt_name  &lt;- &quot;London Gatwick&quot;
+
+q &lt;- opq(bbox = bb_lonlat) %&gt;% 
+  add_osm_feature(
+    key = &quot;aeroway&quot;
+    ,value =c(&quot;aerodrome&quot;, &quot;apron&quot;, &quot;control_tower&quot;, &quot;gate&quot;, &quot;hangar&quot;
+              ,&quot;helipad&quot;, &quot;runway&quot;, &quot;taxiway&quot;, &quot;terminal&quot;) ) %&gt;% 
+  osmdata_sf() %&gt;%
+  unique_osmdata()</code></pre>
