@@ -72,7 +72,7 @@ g <- ggplot() +
 g
 ```
 
-<< add graph here >>
+![aerodrome chart of London Gatwick (EGKK)](/post/2020-01-08-aerodrome-charts-with-r-and-osm_files/EGKK.png)
 
 If desired the generated aerodrome chart can be saved with the built-in 'ggsave()' function.
 For example:
