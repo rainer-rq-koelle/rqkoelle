@@ -21,7 +21,12 @@ It follows from this post that there is no ready-out-of-the-box solution for thi
 These layers can be querried for further processing.</p>
 <p>The following code snippets shows the OSM query for extracting the feature <strong>aeroway</strong> and associated elements such as apron, gate, etc.<br />
 Consult the documentation to learn more about these element labels.</p>
-<pre class="r"><code>bb_lonlat &lt;- c(-0.223915,51.141733,-0.155851,51.165738)
+<pre class="r"><code># setup
+library(tidyverse)
+library(osmdata)
+
+# OSM query
+bb_lonlat &lt;- c(-0.223915,51.141733,-0.155851,51.165738)
 apt_icao  &lt;- &quot;EGKK&quot;
 apt_name  &lt;- &quot;London Gatwick&quot;
 
@@ -32,3 +37,37 @@ q &lt;- opq(bbox = bb_lonlat) %&gt;%
               ,&quot;helipad&quot;, &quot;runway&quot;, &quot;taxiway&quot;, &quot;terminal&quot;) ) %&gt;% 
   osmdata_sf() %&gt;%
   unique_osmdata()</code></pre>
+<ol style="list-style-type: decimal">
+<li>identify the region of the world you are interested in. Here we use bboxfinder.com to zoom in on London Gatwick airport. With the <em>draw rectangle</em> we identify the bounding box to limit the query to the part of the world we are interested in! Please ensure that you select (or code) the lnglat format (longitude, latitude rather than the geographic convention latitude before longitude!).</li>
+<li>we supply the bounding box coordinates bb_lnglat to the ‘opq()’ function which queries the OpenStreetMap database.</li>
+<li>for the chosen bounding box we query for the respective feature(s) we are interested, i.e. ‘add_osm_feature(key = “my-key-of-interest”, value = “key-or-keys-of-interest”)’. Multiple feature keys can be grouped together by contaniation ‘c()’.</li>
+<li>with ‘osmdata_sf()’ the extracted features will be coerced into sf objects.</li>
+<li>‘unique_osmdata()’ removes potential duplicate entries based on the use of multipoints/points, multistringlines/lines, etc that may result in double entries (spatial positions).</li>
+</ol>
+<p>The query results is stored in a variable ‘q’.</p>
+<p>In the next step we draw the sf_objects extracted with the osm query.</p>
+<pre class="r"><code>g &lt;- ggplot() +
+  geom_sf(data = q$osm_polygons
+          ,inherit.aes = FALSE
+          ,color = &quot;lightblue&quot;
+          #,fill  = &quot;lightblue&quot;
+          ) +
+  geom_sf(data = q$osm_lines %&gt;% filter(aeroway != &quot;runway&quot;)
+          , color = &quot;grey&quot;
+          ) +
+  geom_sf(data = q$osm_lines %&gt;% filter(aeroway == &quot;runway&quot;),
+          inherit.aes = FALSE,
+          color = &quot;black&quot;,
+          size = 2 #.4
+          ,alpha = .8) +
+  theme_void() +
+  labs(title = &quot;EGKK&quot;)
+
+g</code></pre>
+<p>&lt;&lt; add graph here &gt;&gt;</p>
+<p>If desired the generated aerodrome chart can be saved with the built-in ‘ggsave()’ function.
+For example:</p>
+<pre class="r"><code>fn &lt;- paste(apt_icao, &quot;.png&quot;, sep = &quot;&quot;)
+ggsave(filename = fn, path = &quot;data-ad-charts&quot;)</code></pre>
+<p>As we have a ggplot the graph can be augmented with additional annotations.
+Furthermore the display, colouring, etc. of the different elements can be controlled via the ‘geom_sf()’ options. Have fun!</p>
