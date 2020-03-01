@@ -1,0 +1,50 @@
+---
+title: Developing a Dashboard - Parameterised Reports + Flexdashboard + Plotly
+author: RQ
+date: '2020-03-01'
+slug: developing-a-dashboard-parameterised-reports-flexdashboard-plotly
+categories: []
+tags: 
+  - R Markdown
+  - plotly
+  - flexdashboard
+image:
+  caption: ''
+  focal_point: ''
+---
+
+This post summarises my steps in developing a dashboard with interactive static web-pages based on parameterised reports, flexdashboard, and plotly.
+
+## Building Blocks
+
+* parameterised reports
+* flexdashboard
+* plotly
+
+## Parameterised Reports
+
+this section will be developed.
+
+explain what a parameterised report is and how the data is sourced.
+Then move to "rendering" the report with purrr.
+
+## Flexdashboard
+
+this section needs to be developed.
+
+explain how to instantiate flexdashboards
+what row-column layout
+
+## Adding Interactivity on Static HTML Pages (no shiny)
+
+### Interactive Graphics with Plotly
+
+explain a few things about plotly.
+how to move from ggplot to ggplotly
+how to move to plot_ly for more fine-tuning
+
+### Other HTML-Widgets
+
+datatable
+summary widget
+leaflet
