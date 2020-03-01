@@ -73,6 +73,21 @@ Lorem ipsum blablabla ... c.f. Fig. \@ref(fig:cool-caption))</code></pre>
 To avoid confustion, simply use the same label and refernce pointer.
 Note that the caption reference is <code>(ref: ...)</code> while the refernce to the figure is <code>\@ref(fig: ...)</code> :)</p>
 </div>
+<div id="equations-and-cross-referencing" class="section level2">
+<h2>Equations and cross-referencing</h2>
+<p>Inline equations can be placed between dollar signs $, e.g. <span class="math inline">\(A^2=A*A\)</span>.
+An equation environment can be inserted with $$ dollar signs.</p>
+<p>However, the cross-referencing for equations andassociated numbering works only reliable for <strong>pdf</strong> output when the equation is properly placed with an LATEX environment.</p>
+<p>You may consider editing the equation in <code>$$</code> to get a formula preview.
+Once completed, replace the <code>$$</code> with <code>\begin{equation}</code> and <code>\end{equation}</code></p>
+<pre><code>\begin{equation}     
+(\#eq:addTXOT)
+avgAddTXOT =\frac{\sum_{f_i}{  actualTXOT_i - refTXOT_{(stand,rwy)}  }}{\sum_{f_i}{i}}
+\end{equation}
+
+
+see \@ref(eq:addTXOT)</code></pre>
+</div>
 <div id="bibs" class="section level2">
 <h2>Bibs</h2>
 <p>It depends a bit on the paper/report and workflow.

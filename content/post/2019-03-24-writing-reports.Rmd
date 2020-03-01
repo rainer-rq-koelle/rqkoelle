@@ -86,6 +86,27 @@ Conceptually, the r-chunk label can be different which in turn requires the `\@r
 To avoid confustion, simply use the same label and refernce pointer.
 Note that the caption reference is `(ref: ...)` while the refernce to the figure is `\@ref(fig: ...)` :)
 
+## Equations and cross-referencing
+
+Inline equations can be placed between dollar signs \$, e.g. $A^2=A*A$.
+An equation environment can be inserted with $$ dollar signs.
+
+However, the cross-referencing for equations andassociated numbering works only reliable for **pdf** output when the equation is properly placed with an LATEX environment.
+
+You may consider editing the equation in `$$` to get a formula preview.
+Once completed, replace the `$$` with `\begin{equation}` and `\end{equation}`
+
+```
+\begin{equation}     
+(\#eq:addTXOT)
+avgAddTXOT =\frac{\sum_{f_i}{  actualTXOT_i - refTXOT_{(stand,rwy)}  }}{\sum_{f_i}{i}}
+\end{equation}
+
+
+see \@ref(eq:addTXOT)
+```
+
+
 ## Bibs
 
 It depends a bit on the paper/report and workflow.
