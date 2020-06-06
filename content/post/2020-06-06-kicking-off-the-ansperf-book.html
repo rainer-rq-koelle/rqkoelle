@@ -88,3 +88,20 @@ devtools::install_github(“r-lib/usethis”)</p>
 <li>run <code>usethis::use_github_action(&quot;bookdown.yaml&quot;)</code></li>
 </ol>
 </div>
+<div id="make-a-snapshot" class="section level2">
+<h2>make a snapshot</h2>
+<ol style="list-style-type: decimal">
+<li>if renv is not installed: <code>remotes::install_github(&quot;rstudio/renv&quot;)</code></li>
+<li>run <code>renv::snapshot()</code></li>
+</ol>
+<p>renv keeps a log of all packages and ensures consistency across builds.
+If new packages are required, add them to the DESCRIPTION (with usethis!)</p>
+<p>Notes
+the line</p>
+<p>netlify deploy –prod –dir _book
+in the workflow file it the one that deploys the built book to Netlify. It defaults to the _book folder. In the _bookdown.yml file you can change the output folder. So if you have set it to output_dir: “docs” then you need to change the deploy option to</p>
+<p>netlify deploy –prod –dir docs</p>
+<p>This finalises the setup of the book project.
+All in all the setup took about 30 minutes for the first time, as I had to jump from Emil’s blog to here and test a few things. I need to also change the github repo setup. The github first with a README is light-years simpler.
+Let’s see how the book project actually develops.</p>
+</div>

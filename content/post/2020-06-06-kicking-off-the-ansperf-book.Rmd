@@ -93,4 +93,8 @@ in the workflow file it the one that deploys the built book to Netlify. It defau
 
 netlify deploy --prod --dir docs
 
+This finalises the setup of the book project. 
+All in all the setup took about 30 minutes for the first time, as I had to jump from Emil's blog to here and test a few things. I need to also change the github repo setup. The github first with a README is light-years simpler.
+Let's see how the book project actually develops.
+
 
