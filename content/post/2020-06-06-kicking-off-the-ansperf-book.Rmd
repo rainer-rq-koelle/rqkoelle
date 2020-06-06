@@ -1,0 +1,96 @@
+---
+title: Kicking off the ansperf book
+author: RQ
+date: '2020-06-06'
+slug: kicking-off-the-ansperf-book
+categories: []
+tags: []
+image:
+  caption: ''
+  focal_point: ''
+---
+
+Despite the on-going COVID19 relaxation today does not invite to go out. It is  super-windy day.
+Thus, I look at dusting off one of my older to-dos and (re-)launch writing a book on operational performance analysis with R, i.e. ansperf-book.
+To be frank, the book should be the companion of a R package. Another to-do I never really get off the ground. But first things first: Get the book infrastructure in hand.
+
+I make use of Emil's post at https://www.hvitfeldt.me/blog/bookdown-netlify-github-actions/ and Yihui's bookdown book at https://bookdown.org/yihui/bookdown/.
+
+## Prepare 
+
+Should not be mentioned, but install
+
+* RStudio, R ... you should have a github account ... and netlify
+* bookdown
+* usethis
+
+## Getting Started - Local Repo
+
+1. download the Github repository of bookdown as a [zip file](https://github.com/rstudio/bookdown-demo/archive/master.zip)
+1. and then unzip it locally into your book project folder (in my case the sub-folder is called ansperfbook).
+1. rename the .Rproj file to your project name (ansperf.Rproj).
+1. launch the bookdown skeleton by opening the .Rproj 
+
+If you want to see everything in action: Open the R Markdown file index.Rmd, optionally change or edit a line, and click the button Build Book on the Build tab of RStudio.
+This will create several files/folders names bookdown-demo and a book sub-folder.
+Go there and check out index.html
+To keep your installation clean, delete these files.
+
+## Hook-up with Git and Github
+
+This can be readily done with usethis.
+
+1. initialise git repo based on project folder: `usethis::use_git()`
+1. git will find some uncommited files. Ignore them by choosing selection option `Nope` (or `No`). Note: you will do this later.
+1. usethis/git will propose to restart R to initialise the Git pane. Please do so!
+
+1. for later create repo on github
+
+## For deploying the book setup Netlify
+
+1. go to [netlify.com](https://netlify.com)
+1. after logging on to Netlify
+  + create a “New site from Git”
+  + choose continuous deployment from github
+  + select github repo from the list (!! for this we need to create a repo first)
+  + choose deploy
+  + go to settings and copy ADI ID (i suggest to save this to README)
+  + with change site name, you can pick a more memorable name
+  + scroll down to get the status badge, copy it to your clipboard, and insert it at the top of your README
+  
+  + next create a netlify access token: Scroll all the way up and click on your icon in the top right corner. Then go to “User settings”
+    + go to applications
+    + click `new access token`
+    + provide description and `generate token`
+    + copy the token
+    
+    jump back to your github repo and go to settings
+    + go to `secrets`
+    + add new secret
+      + one named “NETLIFY_AUTH_TOKEN” where you put the personal access token as the value and,
+      + one named “NETLIFY_SITE_ID” where you put the API ID as the value.
+      
+## Create Github workflow
+
+min usethis > 1.5 or install: # install.packages("devtools")
+devtools::install_github("r-lib/usethis")
+
+1. run `usethis::use_github_action("bookdown.yaml")`
+
+## make a snapshot
+
+1. if renv is not installed: `remotes::install_github("rstudio/renv")`
+1. run `renv::snapshot()`
+
+renv keeps a log of all packages and ensures consistency across builds.
+If new packages are required, add them to the DESCRIPTION (with usethis!)
+
+Notes
+the line
+
+netlify deploy --prod --dir _book
+in the workflow file it the one that deploys the built book to Netlify. It defaults to the _book folder. In the _bookdown.yml file you can change the output folder. So if you have set it to output_dir: "docs" then you need to change the deploy option to
+
+netlify deploy --prod --dir docs
+
+

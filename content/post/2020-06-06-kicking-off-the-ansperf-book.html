@@ -1,0 +1,90 @@
+---
+title: Kicking off the ansperf book
+author: RQ
+date: '2020-06-06'
+slug: kicking-off-the-ansperf-book
+categories: []
+tags: []
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+
+<p>Despite the on-going COVID19 relaxation today does not invite to go out. It is super-windy day.
+Thus, I look at dusting off one of my older to-dos and (re-)launch writing a book on operational performance analysis with R, i.e. ansperf-book.
+To be frank, the book should be the companion of a R package. Another to-do I never really get off the ground. But first things first: Get the book infrastructure in hand.</p>
+<p>I make use of Emil’s post at <a href="https://www.hvitfeldt.me/blog/bookdown-netlify-github-actions/" class="uri">https://www.hvitfeldt.me/blog/bookdown-netlify-github-actions/</a> and Yihui’s bookdown book at <a href="https://bookdown.org/yihui/bookdown/" class="uri">https://bookdown.org/yihui/bookdown/</a>.</p>
+<div id="prepare" class="section level2">
+<h2>Prepare</h2>
+<p>Should not be mentioned, but install</p>
+<ul>
+<li>RStudio, R … you should have a github account … and netlify</li>
+<li>bookdown</li>
+<li>usethis</li>
+</ul>
+</div>
+<div id="getting-started---local-repo" class="section level2">
+<h2>Getting Started - Local Repo</h2>
+<ol style="list-style-type: decimal">
+<li>download the Github repository of bookdown as a <a href="https://github.com/rstudio/bookdown-demo/archive/master.zip">zip file</a></li>
+<li>and then unzip it locally into your book project folder (in my case the sub-folder is called ansperfbook).</li>
+<li>rename the .Rproj file to your project name (ansperf.Rproj).</li>
+<li>launch the bookdown skeleton by opening the .Rproj</li>
+</ol>
+<p>If you want to see everything in action: Open the R Markdown file index.Rmd, optionally change or edit a line, and click the button Build Book on the Build tab of RStudio.
+This will create several files/folders names bookdown-demo and a book sub-folder.
+Go there and check out index.html
+To keep your installation clean, delete these files.</p>
+</div>
+<div id="hook-up-with-git-and-github" class="section level2">
+<h2>Hook-up with Git and Github</h2>
+<p>This can be readily done with usethis.</p>
+<ol style="list-style-type: decimal">
+<li>initialise git repo based on project folder: <code>usethis::use_git()</code></li>
+<li>git will find some uncommited files. Ignore them by choosing selection option <code>Nope</code> (or <code>No</code>). Note: you will do this later.</li>
+<li><p>usethis/git will propose to restart R to initialise the Git pane. Please do so!</p></li>
+<li><p>for later create repo on github</p></li>
+</ol>
+</div>
+<div id="for-deploying-the-book-setup-netlify" class="section level2">
+<h2>For deploying the book setup Netlify</h2>
+<ol style="list-style-type: decimal">
+<li>go to <a href="https://netlify.com">netlify.com</a></li>
+<li>after logging on to Netlify</li>
+</ol>
+<ul>
+<li>create a “New site from Git”</li>
+<li>choose continuous deployment from github</li>
+<li>select github repo from the list (!! for this we need to create a repo first)</li>
+<li>choose deploy</li>
+<li>go to settings and copy ADI ID (i suggest to save this to README)</li>
+<li>with change site name, you can pick a more memorable name</li>
+<li><p>scroll down to get the status badge, copy it to your clipboard, and insert it at the top of your README</p></li>
+<li>next create a netlify access token: Scroll all the way up and click on your icon in the top right corner. Then go to “User settings”
+<ul>
+<li>go to applications</li>
+<li>click <code>new access token</code></li>
+<li>provide description and <code>generate token</code></li>
+<li>copy the token</li>
+</ul>
+jump back to your github repo and go to settings
+<ul>
+<li>go to <code>secrets</code></li>
+<li>add new secret
+<ul>
+<li>one named “NETLIFY_AUTH_TOKEN” where you put the personal access token as the value and,</li>
+<li>one named “NETLIFY_SITE_ID” where you put the API ID as the value.</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="create-github-workflow" class="section level2">
+<h2>Create Github workflow</h2>
+<p>min usethis &gt; 1.5 or install: # install.packages(“devtools”)
+devtools::install_github(“r-lib/usethis”)</p>
+<ol style="list-style-type: decimal">
+<li>run <code>usethis::use_github_action(&quot;bookdown.yaml&quot;)</code></li>
+</ol>
+</div>
