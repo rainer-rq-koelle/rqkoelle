@@ -1,0 +1,21 @@
+---
+title: Improved visualisation (ggplot) resolution in Rmarkdown
+author: RQ
+date: '2020-06-08'
+slug: improved-visualisation-ggplot-resolution-in-rmarkdown
+categories: []
+tags: []
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+
+<p>One of the ever-nagging Rmd tortures is that with html and MS Word output the visualisations look … ahhhhmmm … shabby.</p>
+<p>Found <a href="">this</a> to set the graphics device and resolution to give super results.
+Include the following in the Rmd setup code-chunk:</p>
+<pre><code>if (knitr::opts_knit$get(&quot;rmarkdown.pandoc.to&quot;) != &quot;latex&quot;) {
+  knitr::opts_chunk$set(dpi = 300, dev.args = list(type = &quot;cairo&quot;))
+})</code></pre>
+<p>Works like a charm!</p>

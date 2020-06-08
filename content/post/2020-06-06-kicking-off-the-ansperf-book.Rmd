@@ -10,6 +10,9 @@ image:
   focal_point: ''
 ---
 
+GOTTA REWRITE THIS BLOG POST - IN THE END THE RECIPE DID NOT WORK
+THUS, I STARTED WITH A SIMPLE AND NON-CI SETUP ... FOR THE TIME BEING :)
+
 Despite the on-going COVID19 relaxation today does not invite to go out. It is  super-windy day.
 Thus, I look at dusting off one of my older to-dos and (re-)launch writing a book on operational performance analysis with R, i.e. ansperf-book.
 To be frank, the book should be the companion of a R package. Another to-do I never really get off the ground. But first things first: Get the book infrastructure in hand.
