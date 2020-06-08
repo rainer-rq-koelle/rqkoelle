@@ -12,7 +12,7 @@ image:
 
 One of the ever-nagging Rmd tortures is that with html and MS Word output the visualisations look  ... ahhhhmmm ... shabby.
 
-Found [this]() to set the graphics device and resolution to give super results.
+Found [this](https://rmflight.github.io/post/nicer-png-graphics/) to set the graphics device and resolution to give super results.
 Include the following in the Rmd setup code-chunk:
 
 ````
