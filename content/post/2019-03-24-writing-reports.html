@@ -25,6 +25,7 @@ Nonetheless, I find myself going back to my past projects to install the same (o
 <li>technical reports - longer forms of papers ranging from book chapters to longer research reports.</li>
 <li>blogging with blogdown - that might actually go elsewhere.</li>
 </ul>
+<p>For research papers and technical reports, bookdown is the master package to augment RMarkdown with out-of-the-box cross-referencing.</p>
 </div>
 <div id="rmarkdown" class="section level1">
 <h1>RMarkdown</h1>
@@ -48,20 +49,27 @@ title: &quot;Security Management System&quot;
 author: &quot;RQ&quot;
 date: &quot;19. March 2019&quot;
 output:
-  bookdown::pdf_document2
+  bookdown::pdf_document2   # or word_document2
 bibliography: [chapter-SecMS-bib.bib]
 ---</code></pre>
-<p>Redndering to pdf works as a charm. Ditto for MS Word (if needed).</p>
+<p>Rendering to pdf works as a charm. Ditto for MS Word (if needed).</p>
 </div>
-<div id="including-and-cross-referencing-graphics" class="section level2">
-<h2>Including and Cross-Referencing Graphics</h2>
-<p>There are 3 parts to using a graphic</p>
+<div id="tables" class="section level2">
+<h2>Tables</h2>
+<p>For a start <code>knitr::kable()</code> possibly augmented with <code>kableExtra</code> features gets you far.</p>
+<p>I recently started using <code>flextable</code> as it nicely prints in pdf AND Word!<br />
+Flextable (c.f. next section) seamlessly blends in with bookdown referencing and the knitr code-chunk <code>tab.cap</code> which eases the pain of remembering different processes.</p>
+</div>
+<div id="including-and-cross-referencing-graphics-or-tables" class="section level2">
+<h2>Including and Cross-Referencing Graphics or Tables</h2>
+<p>There are 3 parts to using a graphic or table</p>
 <ul>
-<li>including the graphic</li>
+<li>including the graphic or creating the table</li>
 <li>definition of the caption</li>
 <li>cross-referencing the graphic</li>
 </ul>
-<p>The following is a paste-and-copy skeleton.</p>
+<p>The following is a paste-and-copy skeleton.<br />
+Note that with a recent knitr update the chunk option tab.cap has been introduced, thus replace <code>fig.cap</code> with <code>tab.cap</code> to get the desired result for tables.</p>
 <pre><code>(ref:cool-caption) This is my cool caption text
 
     ```{r cool-caption, fig.cap=&quot;(ref:cool-caption)&quot;, fig.height=4, echo=FALSE}
@@ -70,14 +78,14 @@ bibliography: [chapter-SecMS-bib.bib]
 
 Lorem ipsum blablabla ... c.f. Fig. \@ref(fig:cool-caption))</code></pre>
 <p>Conceptually, the r-chunk label can be different which in turn requires the <code>\@ref()</code> part to link to the different label.
-To avoid confustion, simply use the same label and refernce pointer.
-Note that the caption reference is <code>(ref: ...)</code> while the refernce to the figure is <code>\@ref(fig: ...)</code> :)</p>
+To avoid confusion or frustration, simply use the same label and refernce pointer.<br />
+Note that the caption reference placeholder is <code>(ref: ...)</code>, while the reference to the figure is <code>\@ref(fig: ...)</code> :)</p>
 </div>
 <div id="equations-and-cross-referencing" class="section level2">
 <h2>Equations and cross-referencing</h2>
-<p>Inline equations can be placed between dollar signs $, e.g. <span class="math inline">\(A^2=A*A\)</span>.
-An equation environment can be inserted with $$ dollar signs.</p>
-<p>However, the cross-referencing for equations andassociated numbering works only reliable for <strong>pdf</strong> output when the equation is properly placed with an LATEX environment.</p>
+<p>Inline equations can be placed between single dollar signs $, e.g. <span class="math inline">\(A^2=A*A\)</span>.
+An equation environment can be inserted with double $$ dollar signs.</p>
+<p>However, the cross-referencing for equations and associated numbering works only reliable for <strong>pdf</strong> output when the equation is properly placed with an LATEX environment.</p>
 <p>You may consider editing the equation in <code>$$</code> to get a formula preview.
 Once completed, replace the <code>$$</code> with <code>\begin{equation}</code> and <code>\end{equation}</code></p>
 <pre><code>\begin{equation}     

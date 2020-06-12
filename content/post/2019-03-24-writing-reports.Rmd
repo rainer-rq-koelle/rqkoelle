@@ -26,6 +26,8 @@ When I speak about writing, I predominantly speak about
 * technical reports - longer forms of papers ranging from book chapters to longer research reports.
 * blogging with blogdown - that might actually go elsewhere.
 
+For research papers and technical reports, bookdown is the master package to augment RMarkdown with out-of-the-box cross-referencing.
+
 # RMarkdown
 
 RMarkdown is pretty cool and it is too straight forward to add more here.
@@ -55,22 +57,30 @@ title: "Security Management System"
 author: "RQ"
 date: "19. March 2019"
 output:
-  bookdown::pdf_document2
+  bookdown::pdf_document2   # or word_document2
 bibliography: [chapter-SecMS-bib.bib]
 ---
 ```
 
-Redndering to pdf works as a charm. Ditto for MS Word (if needed).
+Rendering to pdf works as a charm. Ditto for MS Word (if needed).
 
-## Including and Cross-Referencing Graphics
+## Tables
 
-There are 3 parts to using a graphic
+For a start `knitr::kable()` possibly augmented with `kableExtra` features gets you far.
 
-* including the graphic
+I recently started using `flextable` as it nicely prints in pdf AND Word!    
+Flextable (c.f. next section) seamlessly blends in with bookdown referencing and the knitr code-chunk `tab.cap` which eases the pain of remembering different processes.
+
+## Including and Cross-Referencing Graphics or Tables
+
+There are 3 parts to using a graphic or table
+
+* including the graphic or creating the table
 * definition of the caption
 * cross-referencing the graphic
 
-The following is a paste-and-copy skeleton.
+The following is a paste-and-copy skeleton.     
+Note that with a recent knitr update the chunk option tab.cap has been introduced, thus replace `fig.cap` with `tab.cap` to get the desired result for tables.
 
 ```
 (ref:cool-caption) This is my cool caption text
@@ -83,15 +93,15 @@ Lorem ipsum blablabla ... c.f. Fig. \@ref(fig:cool-caption))
 ```
 
 Conceptually, the r-chunk label can be different which in turn requires the `\@ref()` part to link to the different label.
-To avoid confustion, simply use the same label and refernce pointer.
-Note that the caption reference is `(ref: ...)` while the refernce to the figure is `\@ref(fig: ...)` :)
+To avoid confusion or frustration, simply use the same label and refernce pointer.    
+Note that the caption reference placeholder is `(ref: ...)`, while the reference to the figure is `\@ref(fig: ...)` :)
 
 ## Equations and cross-referencing
 
-Inline equations can be placed between dollar signs \$, e.g. $A^2=A*A$.
-An equation environment can be inserted with $$ dollar signs.
+Inline equations can be placed between single dollar signs \$, e.g. $A^2=A*A$.
+An equation environment can be inserted with double \$$ dollar signs.
 
-However, the cross-referencing for equations andassociated numbering works only reliable for **pdf** output when the equation is properly placed with an LATEX environment.
+However, the cross-referencing for equations and associated numbering works only reliable for **pdf** output when the equation is properly placed with an LATEX environment.
 
 You may consider editing the equation in `$$` to get a formula preview.
 Once completed, replace the `$$` with `\begin{equation}` and `\end{equation}`
