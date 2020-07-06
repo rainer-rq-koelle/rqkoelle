@@ -58,7 +58,18 @@ bibliography: [chapter-SecMS-bib.bib]
 <h2>Tables</h2>
 <p>For a start <code>knitr::kable()</code> possibly augmented with <code>kableExtra</code> features gets you far.</p>
 <p>I recently started using <code>flextable</code> as it nicely prints in pdf AND Word!<br />
-Flextable (c.f. next section) seamlessly blends in with bookdown referencing and the knitr code-chunk <code>tab.cap</code> which eases the pain of remembering different processes.</p>
+Flextable (c.f. below) seamlessly blends in with bookdown referencing and the knitr code-chunk <code>tab.cap</code> which eases the pain of remembering different processes.</p>
+</div>
+<div id="cross-referencing-headers" class="section level2">
+<h2>Cross-Referencing Headers</h2>
+<p>To cross-reference a header you need to</p>
+<ul>
+<li>(ideally) assign a header id</li>
+<li>add the cross-reference as appropriate</li>
+</ul>
+<p>Headers are normally assigned an id “hyphening” the header text. For example, the header <code># Overview of Report</code> will be turned into the id <code>overview-of-report</code>.</p>
+<p>To allow for more control, assign an id within curly braces {} and a hashtag just before the chosen id. This id reference is added at the end of the header, i.e. <code># Overview of Report {#my-header-id}</code>.</p>
+<p>Cross-reference to the id with the standard reference pointer: <code>\@ref(my-header-id)</code>.</p>
 </div>
 <div id="including-and-cross-referencing-graphics-or-tables" class="section level2">
 <h2>Including and Cross-Referencing Graphics or Tables</h2>
@@ -80,9 +91,17 @@ Lorem ipsum blablabla ... c.f. Fig. \@ref(fig:cool-caption))</code></pre>
 <p>Conceptually, the r-chunk label can be different which in turn requires the <code>\@ref()</code> part to link to the different label.
 To avoid confusion or frustration, simply use the same label and refernce pointer.<br />
 Note that the caption reference placeholder is <code>(ref: ...)</code>, while the reference to the figure is <code>\@ref(fig: ...)</code> :)</p>
+<p>For tables this can look like the following:</p>
+<pre><code>(ref:cool-table) Add a cool table caption here
+
+    ```{r cool-table, tab.cap=&quot;(ref:cool-table)&quot;}
+    knitr::kable(my-cool-table-df)
+    ```
+
+Table \ref@(tab:cool-table) lalala ... alala</code></pre>
 </div>
-<div id="equations-and-cross-referencing" class="section level2">
-<h2>Equations and cross-referencing</h2>
+<div id="equations-and-cross-referencing-equations" class="section level2">
+<h2>Equations and cross-referencing equations</h2>
 <p>Inline equations can be placed between single dollar signs $, e.g. <span class="math inline">\(A^2=A*A\)</span>.
 An equation environment can be inserted with double $$ dollar signs.</p>
 <p>However, the cross-referencing for equations and associated numbering works only reliable for <strong>pdf</strong> output when the equation is properly placed with an LATEX environment.</p>

@@ -69,7 +69,20 @@ Rendering to pdf works as a charm. Ditto for MS Word (if needed).
 For a start `knitr::kable()` possibly augmented with `kableExtra` features gets you far.
 
 I recently started using `flextable` as it nicely prints in pdf AND Word!    
-Flextable (c.f. next section) seamlessly blends in with bookdown referencing and the knitr code-chunk `tab.cap` which eases the pain of remembering different processes.
+Flextable (c.f. below) seamlessly blends in with bookdown referencing and the knitr code-chunk `tab.cap` which eases the pain of remembering different processes.
+
+## Cross-Referencing Headers
+
+To cross-reference a header you need to
+
+* (ideally) assign a header id
+* add the cross-reference as appropriate
+
+Headers are normally assigned an id "hyphening" the header text. For example, the header `# Overview of Report` will be turned into the id `overview-of-report`.
+
+To allow for more control, assign an id within curly braces {} and a hashtag just before the chosen id. This id reference is added at the end of the header, i.e. `# Overview of Report {#my-header-id}`.
+
+Cross-reference to the id with the standard reference pointer: `\@ref(my-header-id)`.
 
 ## Including and Cross-Referencing Graphics or Tables
 
@@ -96,7 +109,19 @@ Conceptually, the r-chunk label can be different which in turn requires the `\@r
 To avoid confusion or frustration, simply use the same label and refernce pointer.    
 Note that the caption reference placeholder is `(ref: ...)`, while the reference to the figure is `\@ref(fig: ...)` :)
 
-## Equations and cross-referencing
+For tables this can look like the following:   
+
+```
+(ref:cool-table) Add a cool table caption here
+
+    ```{r cool-table, tab.cap="(ref:cool-table)"}`r ''`
+    knitr::kable(my-cool-table-df)
+    ```
+
+Table \ref@(tab:cool-table) lalala ... alala
+```
+
+## Equations and cross-referencing equations
 
 Inline equations can be placed between single dollar signs \$, e.g. $A^2=A*A$.
 An equation environment can be inserted with double \$$ dollar signs.
