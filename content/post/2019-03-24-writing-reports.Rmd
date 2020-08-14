@@ -10,6 +10,8 @@ image:
   focal_point: ''
 ---
 
+This post was last updated on `r format(Sys.Date(), "%Y-%m-%d")`.
+
 # Overview 
 
 This post is an aide-memoire for my future me. Throughout the recent months/years I have subsequently moved my writing to RMarkdown. 
@@ -26,7 +28,7 @@ When I speak about writing, I predominantly speak about
 * technical reports - longer forms of papers ranging from book chapters to longer research reports.
 * blogging with blogdown - that might actually go elsewhere.
 
-For research papers and technical reports, bookdown is the master package to augment RMarkdown with out-of-the-box cross-referencing.
+For research papers and technical reports, bookdown is the master package to augment RMarkdown with out-of-the-box cross-referencing for graphics, tables, and equations. 
 
 # RMarkdown
 
@@ -129,7 +131,8 @@ An equation environment can be inserted with double \$$ dollar signs.
 However, the cross-referencing for equations and associated numbering works only reliable for **pdf** output when the equation is properly placed with an LATEX environment.
 
 You may consider editing the equation in `$$` to get a formula preview.
-Once completed, replace the `$$` with `\begin{equation}` and `\end{equation}`
+Once completed, replace the `$$` with `\begin{equation}` and `\end{equation}`.
+The equation block will then look like the following:
 
 ```
 \begin{equation}     
@@ -140,6 +143,22 @@ avgAddTXOT =\frac{\sum_{f_i}{  actualTXOT_i - refTXOT_{(stand,rwy)}  }}{\sum_{f_
 
 see \@ref(eq:addTXOT)
 ```
+
+The rticles packages offers a nice extension to bookdown::pdf_document by providing pdf/LATEX templates for a extensive set of journals/conferences.
+For the IEEE rticle format the bookdown equation reference threw an error as the control command requires the `amsmath` package installed.
+This is now solved for the rticles IEEE format (c.f. [rticles issue #289](https://github.com/rstudio/rticles/issues/289)). 
+
+If you run into similar problems (older rticles package or another base format, c.f. [rticles issue #289](https://github.com/rstudio/rticles/issues/289), related question on [SO](https://stackoverflow.com/questions/61247849/rstudio-rticles-knit-to-pdf-book-fails-when-cross-referencing-equations?noredirect=1&lq=1)) expand your YAML to include the `extra_dependencies` pointer:
+
+```
+...
+output:
+  bookdown::pdf_book:
+     base_format: rticles::ieee_article
+     extra_dependencies: amsmath
+...
+```
+
 
 
 ## Bibs

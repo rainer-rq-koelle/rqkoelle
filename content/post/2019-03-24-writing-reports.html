@@ -12,6 +12,7 @@ image:
 
 
 
+<p>This post was last updated on 2020-08-14.</p>
 <div id="overview" class="section level1">
 <h1>Overview</h1>
 <p>This post is an aide-memoire for my future me. Throughout the recent months/years I have subsequently moved my writing to RMarkdown.
@@ -25,7 +26,7 @@ Nonetheless, I find myself going back to my past projects to install the same (o
 <li>technical reports - longer forms of papers ranging from book chapters to longer research reports.</li>
 <li>blogging with blogdown - that might actually go elsewhere.</li>
 </ul>
-<p>For research papers and technical reports, bookdown is the master package to augment RMarkdown with out-of-the-box cross-referencing.</p>
+<p>For research papers and technical reports, bookdown is the master package to augment RMarkdown with out-of-the-box cross-referencing for graphics, tables, and equations.</p>
 </div>
 <div id="rmarkdown" class="section level1">
 <h1>RMarkdown</h1>
@@ -68,7 +69,7 @@ Flextable (c.f. below) seamlessly blends in with bookdown referencing and the kn
 <li>add the cross-reference as appropriate</li>
 </ul>
 <p>Headers are normally assigned an id “hyphening” the header text. For example, the header <code># Overview of Report</code> will be turned into the id <code>overview-of-report</code>.</p>
-<p>To allow for more control, assign an id within curly braces {} and a hashtag just before the chosen id. This id reference is added at the end of the header, i.e. <code># Overview of Report {#my-header-id}</code>.</p>
+<p>To allow for more control, assign an id within curly braces {} and a hashtag just before the chosen id. This id reference is added at the end of the header, i.e. <code># Overview of Report {#my-header-id}</code>.</p>
 <p>Cross-reference to the id with the standard reference pointer: <code>\@ref(my-header-id)</code>.</p>
 </div>
 <div id="including-and-cross-referencing-graphics-or-tables" class="section level2">
@@ -102,11 +103,12 @@ Table \ref@(tab:cool-table) lalala ... alala</code></pre>
 </div>
 <div id="equations-and-cross-referencing-equations" class="section level2">
 <h2>Equations and cross-referencing equations</h2>
-<p>Inline equations can be placed between single dollar signs $, e.g. <span class="math inline">\(A^2=A*A\)</span>.
+<p>Inline equations can be placed between single dollar signs $, e.g. <span class="math inline">\(A^2=A*A\)</span>.
 An equation environment can be inserted with double $$ dollar signs.</p>
 <p>However, the cross-referencing for equations and associated numbering works only reliable for <strong>pdf</strong> output when the equation is properly placed with an LATEX environment.</p>
 <p>You may consider editing the equation in <code>$$</code> to get a formula preview.
-Once completed, replace the <code>$$</code> with <code>\begin{equation}</code> and <code>\end{equation}</code></p>
+Once completed, replace the <code>$$</code> with <code>\begin{equation}</code> and <code>\end{equation}</code>.
+The equation block will then look like the following:</p>
 <pre><code>\begin{equation}     
 (\#eq:addTXOT)
 avgAddTXOT =\frac{\sum_{f_i}{  actualTXOT_i - refTXOT_{(stand,rwy)}  }}{\sum_{f_i}{i}}
@@ -114,6 +116,16 @@ avgAddTXOT =\frac{\sum_{f_i}{  actualTXOT_i - refTXOT_{(stand,rwy)}  }}{\sum_{f_
 
 
 see \@ref(eq:addTXOT)</code></pre>
+<p>The rticles packages offers a nice extension to bookdown::pdf_document by providing pdf/LATEX templates for a extensive set of journals/conferences.
+For the IEEE rticle format the bookdown equation reference threw an error as the control command requires the <code>amsmath</code> package installed.
+This is now solved for the rticles IEEE format (c.f. <a href="https://github.com/rstudio/rticles/issues/289">rticles issue #289</a>).</p>
+<p>If you run into similar problems (older rticles package or another base format, c.f. <a href="https://github.com/rstudio/rticles/issues/289">rticles issue #289</a>, related question on <a href="https://stackoverflow.com/questions/61247849/rstudio-rticles-knit-to-pdf-book-fails-when-cross-referencing-equations?noredirect=1&amp;lq=1">SO</a>) expand your YAML to include the <code>extra_dependencies</code> pointer:</p>
+<pre><code>...
+output:
+  bookdown::pdf_book:
+     base_format: rticles::ieee_article
+     extra_dependencies: amsmath
+...</code></pre>
 </div>
 <div id="bibs" class="section level2">
 <h2>Bibs</h2>
