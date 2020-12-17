@@ -15,7 +15,19 @@ image:
 
 
 
-<p>This post summarises my steps in developing a dashboard with interactive static web-pages based on parameterised reports, flexdashboard, and plotly.</p>
+<p>This post summarises my steps in developing a dashboard with interactive static web-pages based on parameterised reports, flexdashboard, and plotly.
+The dashboards are now in use and the following is for historic reference.
+If you want to check, feel free to have a look at: <a href="https://ansperformance.eu/dashboard/stakeholder/airport/db/" class="uri">https://ansperformance.eu/dashboard/stakeholder/airport/db/</a></p>
+<div id="design-requirements" class="section level2">
+<h2>Design Requirements</h2>
+<p>The goal was to set-up a dashboard for the performance monitoring of airports in Europe.</p>
+<p>To reduce complexity, the idea was to make use exclusively of a client-side processing through the use of respective javascript driven widgets, i.e. static webpage(s).
+Also in the beginning it was not clear which (interactive) functionality the dashboard should support, the capability to make use of crosstalk across the building blocks was preferred.</p>
+<p>As we moved away from a server-driven dashboard, each airport “dashboard” represents a separate web-page. Accordingly, the rendering of the web-pages would be implemented as a loop over the same principal web-page design.
+Rmarkdown offers parameterised report to tackle this.</p>
+<p>The plotly library is free to use and offers a reasonable set of visualisations and associated interactivity. Plotly is also crosstalk compliant. The highcharter library has great visual aesthetics. However, at the time of writing, highcharter was not yet crosstalk compatible.</p>
+<p>To ensure responsiveness the flexdashboard package was chosen. Flexdashboard offers a panel oriented framework. This reduces the burden to account for different enduser devices and display sizes.</p>
+</div>
 <div id="building-blocks" class="section level2">
 <h2>Building Blocks</h2>
 <ul>
