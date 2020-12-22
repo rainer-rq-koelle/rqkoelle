@@ -14,5 +14,80 @@ image:
 
 <p>This post documents the production of the ICNS2021 paper.
 The idea was to support the production (and communication) of the paper through/via a web-page.</p>
-<p>To reduce the burden of blogdown (or any other framework), I tested distill.</p>
-<p>To be continued.</p>
+<p>To reduce the burden of blogdown (or any other framework), I tested distill.
+Distill documentation can be found at <a href="https://rstudio.github.io/distill/website.html" class="uri">https://rstudio.github.io/distill/website.html</a>.
+The distill framework revolves around the concept of <strong>distill articles</strong> that provides a tight integration with Rmarkdown. Thus, there is little overhead to support the publication of an article as html page for readers to explore.
+Several articles can be organised as a web-page. A further option is to use <code>distill</code> for blogs. However that is outside the scope of this blog post.</p>
+<div id="getting-started" class="section level2">
+<h2>Getting Started</h2>
+<p>To write a reproducible research paper we want to publish the paper and supporting material via github.</p>
+<ul>
+<li>create github repo (first)</li>
+<li>copy the git url</li>
+<li>launch RStudio and create a new project with version control</li>
+<li>use copied url to hook up new project and git repo</li>
+</ul>
+<p>If not done, install <code>distill</code>, i.e. <code>install.packages("distill")</code> from CRAN.</p>
+<ul>
+<li>create a new distill web-page with</li>
+</ul>
+<pre><code>distill::create_website(dir=&quot;.&quot;,title=&quot;ICNS2021&quot;, gh_pages = TRUE)</code></pre>
+<ul>
+<li>as we are in the project, we use the <code>.</code> <em>dot</em> to specify the current directory</li>
+<li><code>title = "sexy-name</code> allows to define a (working) title for the web-pages; and</li>
+<li><code>gh_pages=TRUE</code> creates a docs sub-directory from which we can use the github-pages, i.e. github serves the pages.</li>
+</ul>
+<div class="figure">
+<img src="/post/2020-12-17-writing-a-reproducible-research-paper-with-supporting-web-page_files/distill-folder-structure-launch.png" alt="" />
+<p class="caption">initial distill folder structure and files</p>
+</div>
+<p>The following default files will be created:</p>
+<ul>
+<li>(default) index.Rmd - this will be the landing page</li>
+<li>(default) about.Rmd - to provide information about you and what’s happening</li>
+<li>(default) _site.yml - the _site.yml allows to configure the web-site, e.g. create further pages and nav menu, etc.</li>
+<li>docs sub-folder - the aforementioned index.Rmd and about.Rmd are rendered as html pages into the subfolder</li>
+<li>a supporting site_libs folder - simply ignore. will be ending up in docs</li>
+</ul>
+<p>With the basic setup in place, we commit all changes in the git pane and push everything to the github repo.</p>
+<p>On github we go to the settings and setup the github pages support.</p>
+<ul>
+<li><p>in your github repo select <code>Setting</code> from the top-bar options</p></li>
+<li><p>scroll down to the <code>Github Pages</code> section</p></li>
+<li><p>select and save the following options:
+<img src="/post/2020-12-17-writing-a-reproducible-research-paper-with-supporting-web-page_files/distill-github-pages-config.png" alt="Github pages, configure branch (=main) and folder (=/docs)" /></p>
+<ul>
+<li>branch: main</li>
+<li>folder: /docs</li>
+</ul></li>
+</ul>
+<p>After saving scroll back to the <code>Github Pages</code> section. You will now find a link to your (initial) website (for this paper).</p>
+<div class="figure">
+<img src="/post/2020-12-17-writing-a-reproducible-research-paper-with-supporting-web-page_files/distill-github-pages-link.png" alt="" />
+<p class="caption">example link to served site</p>
+</div>
+<p>The pages are bare minimum Home and About. But this allows you to verify that everything is in place and working.</p>
+</div>
+<div id="make-first-edits" class="section level2">
+<h2>Make first edits</h2>
+<div id="index.rmd" class="section level3">
+<h3>index.Rmd</h3>
+<p>Provide an introductory text for the landing page of the (article) website.
+For this you add the text to <code>index.Rmd</code>.</p>
+<p>You may also change the title or description in the YAML.</p>
+</div>
+<div id="about.rmd" class="section level3">
+<h3>about.Rmd</h3>
+<p>You may also update the about page to reflect essential information you want to be found there.</p>
+</div>
+</div>
+<div id="build-and-deploy-the-first-edits" class="section level2">
+<h2>Build and Deploy the first edits</h2>
+<p>After authoring the index.Rmd and/or about.Rmd, you can (re-)build the website by going to the <code>Build</code> pane and hit <code>Build Website</code>!</p>
+<p>If you cannot see a <code>Build</code> pane, re-open your project. The <code>Build</code> pane should now sit next to your <code>Git</code> pane.</p>
+<p>You will see RStudio building your website. A preview window should open and enable you to consult the most recent changes.</p>
+<p>If you are happy with your tweaks, go to the <code>Git</code> pane, commit your changes, and push them to your github repo.</p>
+</div>
+<div id="to-be-continued" class="section level2">
+<h2>To be continued …</h2>
+</div>

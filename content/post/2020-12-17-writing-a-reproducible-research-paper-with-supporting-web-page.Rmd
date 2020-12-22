@@ -14,5 +14,79 @@ This post documents the production of the ICNS2021 paper.
 The idea was to support the production (and communication) of the paper through/via a web-page. 
 
 To reduce the burden of blogdown (or any other framework), I tested distill.
+Distill documentation can be found at https://rstudio.github.io/distill/website.html.
+The distill framework revolves around the concept of **distill articles** that provides a tight integration with Rmarkdown. Thus, there is little overhead to support the publication of an article as html page for readers to explore.
+Several articles can be organised as a web-page. A further option is to use `distill` for blogs. However that is outside the scope of this blog post. 
 
-To be continued.
+## Getting Started
+
+To write a reproducible research paper we want to publish the paper and supporting material via github.
+
+* create github repo (first)
+* copy the git url 
+* launch RStudio and create a new project with version control
+* use copied url to hook up new project and git repo
+
+If not done, install `distill`, i.e. `install.packages("distill")` from CRAN.
+
+* create a new distill web-page with 
+``` 
+distill::create_website(dir=".",title="ICNS2021", gh_pages = TRUE)
+```
+
+* as we are in the project, we use the `.` *dot* to specify the current directory
+* `title = "sexy-name` allows to define a (working) title for the web-pages; and
+* `gh_pages=TRUE` creates a docs sub-directory from which we can use the github-pages, i.e. github serves the pages.
+
+![initial distill folder structure and files](/post/2020-12-17-writing-a-reproducible-research-paper-with-supporting-web-page_files/distill-folder-structure-launch.png)
+
+The following default files will be created:
+
+* (default) index.Rmd - this will be the landing page
+* (default) about.Rmd - to provide information about you and what's happening
+* (default) _site.yml - the _site.yml allows to configure the web-site, e.g. create further pages and nav menu, etc.
+* docs sub-folder - the aforementioned index.Rmd and about.Rmd are rendered as html pages into the subfolder
+* a supporting site_libs folder - simply ignore. will be ending up in docs
+
+With the basic setup in place, we commit all changes in the git pane and push everything to the github repo.
+
+On github we go to the settings and setup the github pages support.
+
+* in your github repo select `Setting` from the top-bar options
+* scroll down to the `Github Pages` section
+* select and save the following options:
+![Github pages, configure branch (=main) and folder (=/docs)](/post/2020-12-17-writing-a-reproducible-research-paper-with-supporting-web-page_files/distill-github-pages-config.png)
+
+  + branch: main
+  + folder: /docs
+
+After saving scroll back to the `Github Pages` section. You will now find a link to your (initial) website (for this paper). 
+
+![example link to served site](/post/2020-12-17-writing-a-reproducible-research-paper-with-supporting-web-page_files/distill-github-pages-link.png)
+
+The pages are bare minimum Home and About. But this allows you to verify that everything is in place and working.
+
+## Make first edits
+
+### index.Rmd
+
+Provide an introductory text for the landing page of the (article) website.
+For this you add the text to `index.Rmd`.
+
+You may also change the title or description in the YAML.
+
+### about.Rmd
+
+You may also update the about page to reflect essential information you want to be found there.
+
+## Build and Deploy the first edits
+
+After authoring the index.Rmd and/or about.Rmd, you can (re-)build the website by going to the `Build` pane and hit `Build Website`!
+
+If you cannot see a `Build` pane, re-open your project. The `Build` pane should now sit next to your `Git` pane.
+
+You will see RStudio building your website. A preview window should open and enable you to consult the most recent changes.
+
+If you are happy with your tweaks, go to the `Git` pane, commit your changes, and push them to your github repo.
+
+## To be continued ...
