@@ -1,5 +1,5 @@
 ---
-title: Writing a reproducible research paper with supporting web-page
+title: Writing a reproducible research paper with supporting distill web-page
 author: RQ
 date: '2020-12-17'
 slug: writing-a-reproducible-research-paper-with-supporting-web-page
@@ -88,6 +88,27 @@ For this you add the text to <code>index.Rmd</code>.</p>
 <p>You will see RStudio building your website. A preview window should open and enable you to consult the most recent changes.</p>
 <p>If you are happy with your tweaks, go to the <code>Git</code> pane, commit your changes, and push them to your github repo.</p>
 </div>
-<div id="to-be-continued" class="section level2">
-<h2>To be continued …</h2>
+<div id="start-adding-content-and-develop-the-sitepaper" class="section level2">
+<h2>Start adding Content and Develop the site/paper</h2>
+<p>With the basics in place, the next iterations/editing can focus on developing the paper.</p>
+<div id="managing-the-site-structure---navigation-bar" class="section level3">
+<h3>Managing the site structure - Navigation Bar</h3>
+<p>The <code>_site.yml</code> controls the navigation bar. Conceptually, one can add a</p>
+<ul>
+<li>new page (= distill article) by integrating a new distill article using a page name, i.e. <code>text</code>, and an associated pointer to the respective html file, i.e. <code>href</code>.<br />
+Note: Make sure to use the right html file-name!</li>
+<li>new menu by inserting a <code>menu</code> before a group of sub-ordinated pages:</li>
+</ul>
+<pre><code>navbar:
+  right:
+    - text: &quot;Home&quot;
+      href: index.html
+    - text: &quot;Publish&quot;
+      menu:
+        - text: &quot;Publishing Articles&quot;
+          href: publish_article.html
+        - text: &quot;Publishing a Website&quot;
+          href: publish_website.html
+</code></pre>
+</div>
 </div>

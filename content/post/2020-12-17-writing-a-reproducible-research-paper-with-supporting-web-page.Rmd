@@ -1,5 +1,5 @@
 ---
-title: Writing a reproducible research paper with supporting web-page
+title: Writing a reproducible research paper with supporting distill web-page
 author: RQ
 date: '2020-12-17'
 slug: writing-a-reproducible-research-paper-with-supporting-web-page
@@ -89,4 +89,28 @@ You will see RStudio building your website. A preview window should open and ena
 
 If you are happy with your tweaks, go to the `Git` pane, commit your changes, and push them to your github repo.
 
-## To be continued ...
+## Start adding Content and Develop the site/paper
+
+With the basics in place, the next iterations/editing can focus on developing the paper.
+
+### Managing the site structure - Navigation Bar
+
+The `_site.yml` controls the navigation bar. Conceptually, one can add a
+
+* new page (= distill article) by integrating a new distill article using a page name, i.e. `text`, and an associated pointer to the respective html file, i.e. `href`.    
+Note: Make sure to use the right html file-name!
+* new menu by inserting a `menu` before a group of sub-ordinated pages:
+
+````
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "Publish"
+      menu:
+        - text: "Publishing Articles"
+          href: publish_article.html
+        - text: "Publishing a Website"
+          href: publish_website.html
+
+```` 
