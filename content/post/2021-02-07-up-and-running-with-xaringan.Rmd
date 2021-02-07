@@ -76,6 +76,18 @@ output:
       ratio: 16:9
 ````
 
+## Slide Numbering
+
+There exists a set of different slide number formats:
+
+````
+nature:
+      # Examples
+      slideNumberFormat: "%current%"                  # 12
+      slideNumberFormat: "Slide %current% of %total%" # Slide 12 of 42
+      slideNumberFormat: "%current%/%total%"           # 12/42 
+````
+
 ## Slide basics
 
 * use `---` (3 hyphen to start/separate slides). The first slide will start after the ending hyphens of the YAML.
