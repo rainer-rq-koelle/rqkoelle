@@ -62,6 +62,20 @@ You can add a css tag to your YAML:
 This will load the required css.
 Of course you can develop your own css classes and/or themes for xaringan.
 
+## Slide Ratio
+
+The slide ratio can also be set in the YAML:
+
+```` 
+...
+output:
+  xaringan::moon_reader:
+    ...
+    nature:
+      ...
+      ratio: 16:9
+````
+
 ## Slide basics
 
 * use `---` (3 hyphen to start/separate slides). The first slide will start after the ending hyphens of the YAML.
