@@ -1,0 +1,40 @@
+---
+title: Extracting airport data from World Airports
+author: RQ
+date: '2021-02-09'
+slug: extracting-airport-data-from-world-airports
+categories:
+  - R
+tags: []
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>A quick API query to extract airport data, in particular the aerodrome reference point in R.</p>
+</div>
+<div id="httr-and-jsonlite" class="section level2">
+<h2>httr and jsonlite</h2>
+<p><code>{httr}</code> and <code>{jsonlite}</code> super powers to help:</p>
+<pre><code>################## AIRPORT INFORMATION ##################################
+# https://www.airport-data.com/api/ap_info.json?icao=ESSA
+library(httr)
+library(jsonlite)
+
+# helper function to retrieve apt information
+get_apt_info &lt;- function(.icao){
+  request &lt;- httr::GET(&quot;https://www.airport-data.com/api/ap_info.json&quot;, query = list(icao=.icao))
+  payload &lt;- jsonlite::fromJSON(rawToChar(request$content))
+  payload &lt;- tibble::as_tibble(payload)
+  return(payload)
+}
+
+apt &lt;- get_apt_info(&quot;ESSA&quot;) %&gt;% 
+  rename(ICAO = icao, LAT = latitude, LON = longitude) %&gt;%
+  mutate(LAT = as.numeric(LAT), LON = as.numeric(LON))</code></pre>
+<p>Have fun.</p>
+</div>
