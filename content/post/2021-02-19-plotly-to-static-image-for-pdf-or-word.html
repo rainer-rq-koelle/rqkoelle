@@ -1,0 +1,82 @@
+---
+title: Plotly to static image for pdf or word
+author: RQ
+date: '2021-02-19'
+slug: plotly-to-static-image-for-pdf-or-word
+categories: []
+tags:
+  - plotly
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+
+<div id="how-to-embed-a-interactive-plotly-vis-in-pdfword-output" class="section level1">
+<h1>How to embed a interactive plotly vis in pdf/word output</h1>
+<p>I recently used plotly to produce interactive visualisations in html output.
+However, knitting the RMarkdown into pdf (or Word) resulted in an error.
+Moreover, my idea is to have one Rmd and toggle between the outputs to save on coding.</p>
+<p>The solution entails</p>
+<ul>
+<li>installation of webshot package and phantomjs</li>
+<li>using a deprecated plotly function</li>
+<li>using a htmlWidget &amp; webshot based solution</li>
+</ul>
+</div>
+<div id="prep---install-webshot-and-phantomjs" class="section level1">
+<h1>Prep - install webshot and phantomjs</h1>
+<p>That should be a no-brainer. <code>install.packages(...)</code> is your friend here.</p>
+<p>If you run R/RStudio on a Windows machine with no admin rights (like I do at work), download phantomjs. Then locate phantomjs.exe. This should sit somewhere in Users/username/App/Roaming/PhantomJS on your computer. Move the exe to a folder you have write/exe rights over. Edit your environmental PATH variable to point to the folder you added phantomjs.exe.</p>
+<p>You can check whether your R/RStudio instance sees phantomjs.exe by using <code>webshot::is_phantomjs_installed()</code>. Troubleshoot the location and path definition until the call delivers a TRUE!</p>
+</div>
+<div id="plotlyexport" class="section level1">
+<h1>plotly::export()</h1>
+<p>Plotly had a handy function. At the time of writing (February 2021) the call to <code>plotly::export()</code> just throws a warning. However, it is anticipated that this will no longer work one day.</p>
+</div>
+<div id="htmlwidgets-webshot" class="section level1">
+<h1>htmlWidgets &amp; webshot()</h1>
+<p>This power-duo can be used to</p>
+<ul>
+<li>save the interactive plot as an html page</li>
+<li>make a snapshot of this html and integrate a static (here png file)</li>
+</ul>
+</div>
+<div id="utility-function" class="section level1">
+<h1>utility function</h1>
+<div id="plotlyexport-1" class="section level2">
+<h2>plotly::export()</h2>
+<pre><code>plotly_to_static &lt;- function(.plot = last_plot(), .debug = FALSE){
+  # turn object variable name into character
+  plot_name &lt;- deparse(substitute(.plot))
+  # create a folder for figures
+  if(!dir.exists(&quot;./figures&quot;)){dir.create(&quot;./figures&quot;)}
+  # export is deprecated, need to find other solution
+  if(.debug == TRUE){
+    plotly::export(.plot, file = paste0(&quot;./figures/&quot;, plot_name, &quot;.png&quot;) )
+  }else{
+    suppressWarnings(
+      plotly::export(.plot, file = paste0(&quot;./figures/&quot;, plot_name, &quot;.png&quot;) )
+                     )
+  }
+}</code></pre>
+</div>
+<div id="webshots" class="section level2">
+<h2>webshots</h2>
+<pre><code># save plot as a html widget
+htmlwidgets::saveWidget(widget = piechart, file = &quot;hc.html&quot;)
+# call webshot to make a snapshot and embed the graph
+webshot::webshot(url = &quot;hc.html&quot;, file = &quot;hc.png&quot;, delay = 1, zoom = 4, vheight = 500)</code></pre>
+</div>
+</div>
+<div id="final-words" class="section level1">
+<h1>Final Words</h1>
+<p>I use this approach to toggle between html and pdf output without having to code another graphic for the static output.</p>
+<ul>
+<li>first create the plotly plot (there is a handy wrapper for ggplots: <code>ggplotly(your-ggplot))</code></li>
+<li>use the <code>eval</code> chunk option to detect whether the output is html or non-html (e.g. pdf): `{r pdf_output_here, eval=!knitr::is_html_output()} and use aforementioned function.</li>
+<li>then create a code-chunk for the html output with <code>eval=knitr::is_html_output</code> and just call the element (e.g. plotly graph, DT)</li>
+</ul>
+<p>Feel free to do so too. If you can think of a more elegant way to do this, please let me know. Thanks!</p>
+</div>

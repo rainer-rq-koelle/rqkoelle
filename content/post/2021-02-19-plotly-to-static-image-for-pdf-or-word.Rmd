@@ -1,0 +1,83 @@
+---
+title: Plotly to static image for pdf or word
+author: RQ
+date: '2021-02-19'
+slug: plotly-to-static-image-for-pdf-or-word
+categories: []
+tags:
+  - plotly
+image:
+  caption: ''
+  focal_point: ''
+---
+
+# How to embed a interactive plotly vis in pdf/word output
+
+I recently used plotly to produce interactive visualisations in html output.
+However, knitting the RMarkdown into pdf (or Word) resulted in an error.
+Moreover, my idea is to have one Rmd and toggle between the outputs to save on coding.
+
+The solution entails
+
+* installation of webshot package and phantomjs
+* using a deprecated plotly function
+* using a htmlWidget & webshot based solution
+
+# Prep - install webshot and phantomjs
+
+That should be a no-brainer. `install.packages(...)` is your friend here.
+
+If you run R/RStudio on a Windows machine with no admin rights (like I do at work), download phantomjs. Then locate phantomjs.exe. This should sit somewhere in Users/username/App/Roaming/PhantomJS on your computer. Move the exe to a folder you have write/exe rights over. Edit your environmental PATH variable to point to the folder you added phantomjs.exe.
+
+You can check whether your R/RStudio instance sees phantomjs.exe by using `webshot::is_phantomjs_installed()`. Troubleshoot the location and path definition until the call delivers a TRUE!
+
+# plotly::export()
+
+Plotly had a handy function. At the time of writing (February 2021) the call to `plotly::export()` just throws a warning. However, it is anticipated that this will no longer work one day.
+
+# htmlWidgets & webshot()
+
+This power-duo can be used to 
+
+* save the interactive plot as an html page
+* make a snapshot of this html and integrate a static (here png file)
+
+# utility function
+
+## plotly::export()
+
+````
+plotly_to_static <- function(.plot = last_plot(), .debug = FALSE){
+  # turn object variable name into character
+  plot_name <- deparse(substitute(.plot))
+  # create a folder for figures
+  if(!dir.exists("./figures")){dir.create("./figures")}
+  # export is deprecated, need to find other solution
+  if(.debug == TRUE){
+    plotly::export(.plot, file = paste0("./figures/", plot_name, ".png") )
+  }else{
+    suppressWarnings(
+      plotly::export(.plot, file = paste0("./figures/", plot_name, ".png") )
+                     )
+  }
+}
+````
+
+## webshots
+
+````
+# save plot as a html widget
+htmlwidgets::saveWidget(widget = piechart, file = "hc.html")
+# call webshot to make a snapshot and embed the graph
+webshot::webshot(url = "hc.html", file = "hc.png", delay = 1, zoom = 4, vheight = 500)
+```` 
+
+# Final Words
+
+I use this approach to toggle between html and pdf output without having to code another graphic for the static output.
+
+* first create the plotly plot (there is a handy wrapper for ggplots: `ggplotly(your-ggplot))`
+* use the `eval` chunk option to detect whether the output is html or non-html (e.g. pdf): `{r pdf_output_here, eval=!knitr::is_html_output()} and use aforementioned function.
+* then create a code-chunk for the html output with `eval=knitr::is_html_output` and just call the element (e.g. plotly graph, DT)
+
+Feel free to do so too. If you can think of a more elegant way to do this, please let me know. Thanks!
