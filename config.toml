@@ -9,7 +9,11 @@ title = "RQ's home on the web!"
 
 # The URL of your site.
 # End your URL with a `/` trailing slash, e.g. `https://example.com/`.
-baseurl = "/"
+baseurl = "https://rqkoelle.netlify.app/"
+
+# https://stackoverflow.com/questions/55930617/linking-to-another-post-in-blogdown
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
 
 # Enter a copyright notice to display in the site footer.
 # To display a copyright symbol, type `&copy;`.
