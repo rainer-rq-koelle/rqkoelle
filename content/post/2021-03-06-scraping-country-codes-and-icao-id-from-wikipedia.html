@@ -1,0 +1,112 @@
+---
+title: Scraping country codes and ICAO id from wikipedia
+author: RQ
+date: '2021-03-06'
+slug: scraping-country-codes-and-icao-id-from-wikipedia
+categories:
+  - R
+tags: []
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>At the time being I am working on a project aiming to derive flight statistics from the COVID data set published by <a href="https://opensky-network.org/">Opensky Network</a> on a global country level.
+This data set comprises for a good share of flights only the last and first detected position.
+My idea is therefore to link these positions with the country to complement the “local” count, if no departure (origin) or destination airport is provided in the dataset.
+Airport location indicators follow an ICAO-region &amp; country coding. For example, <em>EGLL</em> represents <em>E</em> (a part of) Europe, <em>EG</em> the United Kingdom, and locally <em>LL</em> is used to refer to <em>EGLL London Heathrow</em>.
+The ICAO location indicators refer with the first 2 letters to the country. There are a few exceptions. For some states only the first letter identifies the country, .e.g. <em>K</em> for the United States, <em>C</em> for Canada, <em>U</em> for large parts of Russia, and <em>Y</em> for Australia.</p>
+<p>Although I work in aviation for quite some time, I somehow had no lookup table that would support me in linking ISO country identifications with ICAO country codes.
+I came across a great resource on wikipedia. But obviously, pasting &amp; copying the info was something I did not ask for …</p>
+<p>While hacking R for a couple of years, I somehow never used the R ecosystem to “scrape” from the web. Voila … a useful learning exercise.</p>
+</div>
+<div id="getting-started" class="section level2">
+<h2>Getting started</h2>
+<p>The <code>{httr}</code> package is the go-to resource for accessing web-page content and GETting the html payload. The package would also support GET/POST requests, if you are accessing an API.
+Check out <a href="https://rqkoelle.netlify.app/post/extracting-airport-data-from-world-airports/">accessing and downloading from airport-data.com API</a> for details.</p>
+<p>If not done yet, use <code>install.packages()</code> to download both packages and
+then make them available.
+Below I will use the <code>package::fun</code> convention to provide pointers from which package the function is.</p>
+<pre><code>library(httr)
+library(rvest)</code></pre>
+</div>
+<div id="ready-the-basics" class="section level2">
+<h2>Ready … the basics</h2>
+<p>Our aim is to download (and process) the country code tables from wikipedia.
+Let’s define the url and GET the webpage.</p>
+<pre><code>url &lt;- &quot;https://en.wikipedia.org/wiki/Country_codes:_N&quot;
+webpage &lt;- httr::GET(url)</code></pre>
+<p>Have a look at the downloaded webpage.</p>
+<p><img src="/post/2021-03-06-scraping-country-codes-and-icao-id-from-wikipedia_files/blog_httr-GET-url.png" /></p>
+<p>For the decoding of the returned html page I use the <code>{rvest}</code> package.
+<code>{rvest}</code> works with the concept of <code>nodes</code>. Think about building blocks of a html page.</p>
+<p>For example we can extract the header level 3 “nodes” with</p>
+<pre><code>httr::content(webpage) %&gt;% rvest::html_nodes(&quot;h3&quot;)</code></pre>
+<p><img src="/post/2021-03-06-scraping-country-codes-and-icao-id-from-wikipedia_files/blog_httr-rvest-node.png" /></p>
+<p>Obviously, we are now able to reformat the content as required.</p>
+</div>
+<div id="steady-what-to-go-for" class="section level2">
+<h2>Steady … what to go for</h2>
+<p>The goal is to download the tables and reformat them for our use.
+With the previous section, I realised that the country name is wrapped on header <em>h2</em> tags.
+We therefore have to extract the <code>h2</code> nodes and the <code>table</code> nodes.
+These first extracts are stored in respective variables</p>
+<pre><code>ctry_name &lt;- httr::content(webpage) %&gt;% rvest::html_nodes(&quot;h2&quot;)
+ctry_name</code></pre>
+<p><img src="/post/2021-03-06-scraping-country-codes-and-icao-id-from-wikipedia_files/blog_httr-rvest-node-h2.png" /></p>
+<p>This gives us a xml-nodeset list.
+The actual <code>html text</code> can be stripped off the html tags and class definitions, etc.</p>
+<pre><code>ctry_name &lt;- ctry_name %&gt;% rvest::html_text()</code></pre>
+<p><img src="/post/2021-03-06-scraping-country-codes-and-icao-id-from-wikipedia_files/blog_httr-rvest-node-h2-stripped.png" /></p>
+<p>This gives a neat character vector of length 17.
+Apparently, the page text uses the h2 tag to code some additional elements, i.e. Contents, References, and Navigation menu. Something that needs to be stripped off as well.
+The text entries of the country names also show what used to be the edit hyperlink. We need to get rid of this as well.</p>
+<p><code>{stringr}</code> is our friend here for such string cleaning operations.
+Then we subset the vector by removing</p>
+<pre><code>ctry_name &lt;- ctry_name %&gt;% 
+    stringr::str_trim(side = &quot;both&quot;) %&gt;% 
+    stringr::str_remove(&quot;\\[edit\\]&quot;)
+    
+ctry_name &lt;- ctry_name[c(-1, -length(ctry_name), -(length(ctry_name)-1))]
+# or ctry_name[c(2:(length(ctry_name)-2))]</code></pre>
+<p>This gives us a clean name of country names!</p>
+<p>Let’s tackle the tables with the data we are interested in.
+We follow the same logic as above and assign the table payload to the tbls variable.</p>
+<pre><code>tbls &lt;- httr::content(webpage) %&gt;% rvest::html_nodes(&quot;table&quot;) %&gt;% rvest::html_table()</code></pre>
+<p><img src="/post/2021-03-06-scraping-country-codes-and-icao-id-from-wikipedia_files/blog_httr-rvest-node-table-stripped.png" /></p>
+<p>A closer look at the table allows to see where the data we are interested in sits. Our goal is to extract the iso country name and associated ICAO country code (or prefix as called on the wikipedia page).<br />
+While looking at the table, I decided to also extract the aircraft prefixes. That might come handy later.</p>
+<p>The text in the different table cells combines the title and value.
+Thus a few things need to be extracted/reshuffled.</p>
+<p>For this I put a quick function together that combines the different steps.
+I use the bracket notation to access the table cells, e.g. .df[1,2] gets me the value in row 1 and column 2. With <code>{stringr::remove()}</code> the unwanted parts are stripped off.</p>
+<pre><code># code to extract the values
+function(.df){
+    df &lt;- tibble(
+         iso_a3 = .df[1,2] %&gt;% stringr::str_remove(&quot;ISO 3166-1 alpha-3&quot;)
+        ,iso_a2 = .df[1,3] %&gt;% stringr::str_remove(&quot;ISO 3166-1 alpha-2&quot;)
+        ,icao   = .df[1,4] %&gt;% stringr::str_remove(&quot;ICAO airport code prefix\\(es\\)&quot;)
+        ,ac_regs= .df[2,4] %&gt;% stringr::str_remove(&quot;ICAO aircraft regis. prefix\\(es\\)&quot;)
+    )
+    return(df)
+}</code></pre>
+<p>With this helper function I can clean one returned table.
+To apply this to every table in the table nodeset list, let’s use <code>{purrr}</code> in combination with providing a dataframe as output.
+This gives me the table extraction and cleaning pipeline:</p>
+<pre><code>tbls &lt;- httr::content(webpage) %&gt;%
+    rvest::html_nodes(&quot;table&quot;) %&gt;%
+    rvest::html_table() %&gt;% 
+    purrr::map_dfr(.f = extract_details) </code></pre>
+<p><img src="/post/2021-03-06-scraping-country-codes-and-icao-id-from-wikipedia_files/blog_httr-rvest-node-table-xclean.png" /></p>
+<p>The puzzle pieces are now ready and can be combined with a simple <code>dplyr::bind_cols()</code></p>
+<pre><code>dplyr::bind_cols(name = ctry_name, tbls)</code></pre>
+</div>
+<div id="go-getting-all" class="section level2">
+<h2>Go … getting all</h2>
+<p>I stop here. If you get the hang of it, you can create a vector of all country code wikipages and then iterate over these names and providing the 2 queries (i. country names, and ii. table info) as a function in another purrr call.</p>
+<p>Have fun!</p>
+</div>
