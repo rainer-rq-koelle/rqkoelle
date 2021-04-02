@@ -15,8 +15,8 @@ image:
 This is a quick update to an earlier post about changing/improving the output of graphics, i.e. ggplot, in "other" RMarkdown output formats, e.g. MS Word.
 
 In my view one of the annoying features of RMarkdown, knitr, and friends is that graphics/ggplots knitted to MS Word look ... let's say ... shabby.
-I am cognisant of the technicalitiesx, read a lot about it, but it is way above my head how to re-write what would be needed. 
-Thus, I am using one of the workarounds: setting the print device to cairo and dpi.
+I am cognisant of the technicalities, read a lot about it, but it is way above my head how to re-write what would be needed. 
+Thus, I am using one of the workarounds: setting the print device to cairo and using a decent (higher) dpi value.
 
 ````
 # the workaround
@@ -32,8 +32,9 @@ For quite a while I circumnavigated that problem by either commenting out the li
 Both options require to keep this in mind and/or fix it.
 Being categorically bad in remembering this or rolling the eyes when I yet saw the text block after rendering the Rmd, I regularly scanned for other ways of doing it.
 
-The other day, I tried to understand `{purrr}`'s `safely()` function.
-It did what I wanted it to do in the other context: accepting a function to throw an error without interrupting the script/further execution.
+The other day I tried to understand `{purrr}`'s `safely()` function.
+It did what I wanted it to do in the other context: accepting a function to throw an error without interrupting the script/further execution.    
+It took a while but then it sank in with me that this is the behaviour I was looking for to remove the workaround obstacles.
 
 Hence, I wrap the configuration call into a function and call it with `purrr::safely()`.
 

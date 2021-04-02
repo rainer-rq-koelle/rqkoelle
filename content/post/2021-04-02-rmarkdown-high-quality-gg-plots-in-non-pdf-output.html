@@ -16,8 +16,8 @@ image:
 
 <p>This is a quick update to an earlier post about changing/improving the output of graphics, i.e. ggplot, in “other” RMarkdown output formats, e.g. MS Word.</p>
 <p>In my view one of the annoying features of RMarkdown, knitr, and friends is that graphics/ggplots knitted to MS Word look … let’s say … shabby.
-I am cognisant of the technicalitiesx, read a lot about it, but it is way above my head how to re-write what would be needed.
-Thus, I am using one of the workarounds: setting the print device to cairo and dpi.</p>
+I am cognisant of the technicalities, read a lot about it, but it is way above my head how to re-write what would be needed.
+Thus, I am using one of the workarounds: setting the print device to cairo and using a decent (higher) dpi value.</p>
 <pre><code># the workaround
 if (knitr::opts_knit$get(&quot;rmarkdown.pandoc.to&quot;) != &quot;latex&quot;) {
   knitr::opts_chunk$set(dpi = 300, dev.args = list(type = &quot;cairo&quot;))</code></pre>
@@ -27,8 +27,9 @@ Obviously, the if() conditions throws an error as the Rmd is not knitted/rendere
 <p>For quite a while I circumnavigated that problem by either commenting out the lines above <code># if(knitr::opts ...</code> or removing the r-engine pointer from the code chunk header, i.e. <code>```{ setup, ... } ...</code> instead of <code>```{r setup, ...} ....</code>. Obviously, the commenting out needs to be removed before knitting the document to its less-shabby-graphics format or you have to live with a code-block/monospace text block unless putting the <code>r</code> back in.
 Both options require to keep this in mind and/or fix it.
 Being categorically bad in remembering this or rolling the eyes when I yet saw the text block after rendering the Rmd, I regularly scanned for other ways of doing it.</p>
-<p>The other day, I tried to understand <code>{purrr}</code>’s <code>safely()</code> function.
-It did what I wanted it to do in the other context: accepting a function to throw an error without interrupting the script/further execution.</p>
+<p>The other day I tried to understand <code>{purrr}</code>’s <code>safely()</code> function.
+It did what I wanted it to do in the other context: accepting a function to throw an error without interrupting the script/further execution.<br />
+It took a while but then it sank in with me that this is the behaviour I was looking for to remove the workaround obstacles.</p>
 <p>Hence, I wrap the configuration call into a function and call it with <code>purrr::safely()</code>.</p>
 <pre><code># helper function to ensure nice(r) looking graphics in MS Word output
 # defines dpi and cairo, if not wrapped in safely, the chunk fails if run by
