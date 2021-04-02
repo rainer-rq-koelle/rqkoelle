@@ -13,11 +13,30 @@ image:
 
 
 
-<p>This is an aide memoire / lookup post.</p>
+<div id="top" class="section level2">
+<h2>Aide memoire &amp; lookup post.</h2>
 <p><code>{ggplot2}</code> is awesome. But I find me regularly googling for the things below. This post is a shortcut as I do not need to chase older pages I visited on my questions.</p>
-<div id="force-axis-limits" class="section level3">
+<ul>
+<li><a href="#axislimits">force axis limits</a></li>
+<li><a href="#labeldodgebarchart">position labels on dodged barcharts</a></li>
+</ul>
+<div id="axislimits" class="section level3">
 <h3>Force axis limits</h3>
 <p>with xlim, ylim one “zooms” into the given dimensions or</p>
 <pre><code>  scale_x_continuous(..., limits = c(0, NA))</code></pre>
-<p>check what expand = c(0,0) is doing - think cutting the additional space.</p>
+<p>check what expand = c(0,0) is doing - think cutting the additional space.
+<a href="#top">back to top</a></p>
+</div>
+<div id="labeldodgebarchart" class="section level3">
+<h3>Dodged Barcharts - position text</h3>
+<p>There is somewhere an awesome SO answer explaining that the position_dodge depends on “data units” and its “resolution”. The latter can be querried with <code>ggplot2::resolution(df$x)</code>. Its value needs to be multiplied by 0.9. I forgot why but the answer explained that. There are several SO answers with width=1. This works for resolution 1 and 1 * 0.9 ~ 1. If you look carefully, the text is not fully aligned in the middle position.</p>
+<pre><code>rq %&gt;% ggplot(aes(Date, Value, fill = H2)) +
+     geom_col(position = &quot;dodge&quot;) +
+     geom_text(aes(label = Value), 
+               position = position_dodge(width= resolution(rq$Date) * 0.9),
+               vjust=1.5)</code></pre>
+<p>This gives
+<img src="/post/2021-04-02-things-i-google-far-too-often-for-ggplot_files/blog-ggplot-position_dodge.png" width="400" />
+<a href="#top">back to top</a></p>
+</div>
 </div>

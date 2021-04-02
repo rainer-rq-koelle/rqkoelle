@@ -11,11 +11,14 @@ image:
   focal_point: ''
 ---
 
-This is an aide memoire / lookup post.  
+## Aide memoire & lookup post.  {#top}
 
 `{ggplot2}` is awesome. But I find me regularly googling for the things below. This post is a shortcut as I do not need to chase older pages I visited on my questions.
 
-### Force axis limits
+* [force axis limits](#axislimits)
+* [position labels on dodged barcharts](#labeldodgebarchart)
+
+### Force axis limits {#axislimits}
 
 with xlim, ylim one "zooms" into the given dimensions or
 
@@ -24,3 +27,20 @@ with xlim, ylim one "zooms" into the given dimensions or
 ```` 
 
 check what expand = c(0,0) is doing - think cutting the additional space.
+[back to top](#top)
+
+### Dodged Barcharts - position text {#labeldodgebarchart}
+
+There is somewhere an awesome SO answer explaining that the position_dodge depends on "data units" and its "resolution". The latter can be querried with `ggplot2::resolution(df$x)`. Its value needs to be multiplied by 0.9. I forgot why but the answer explained that. There are several SO answers with width=1. This works for resolution 1 and 1 * 0.9 ~ 1. If you look carefully, the text is not fully aligned in the middle position.
+
+````
+rq %>% ggplot(aes(Date, Value, fill = H2)) +
+     geom_col(position = "dodge") +
+     geom_text(aes(label = Value), 
+               position = position_dodge(width= resolution(rq$Date) * 0.9),
+               vjust=1.5)
+````
+
+This gives
+![](/post/2021-04-02-things-i-google-far-too-often-for-ggplot_files/blog-ggplot-position_dodge.png){width=400px}
+[back to top](#top)
