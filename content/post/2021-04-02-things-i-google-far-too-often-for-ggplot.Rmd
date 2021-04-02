@@ -1,0 +1,26 @@
+---
+title: Things I google far too often for ggplot
+author: RQ
+date: '2021-04-02'
+slug: things-i-google-far-too-often-for-ggplot
+categories: []
+tags:
+  - ggplot
+image:
+  caption: ''
+  focal_point: ''
+---
+
+This is an aide memoire / lookup post.  
+
+`{ggplot2}` is awesome. But I find me regularly googling for the things below. This post is a shortcut as I do not need to chase older pages I visited on my questions.
+
+### Force axis limits
+
+with xlim, ylim one "zooms" into the given dimensions or
+
+````
+  scale_x_continuous(..., limits = c(0, NA))
+```` 
+
+check what expand = c(0,0) is doing - think cutting the additional space.
