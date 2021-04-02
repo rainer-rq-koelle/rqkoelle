@@ -1,0 +1,55 @@
+---
+title: RMarkdown - high quality (gg)plots in non-pdf output
+author: RQ
+date: '2021-04-02'
+slug: rmarkdown-high-quality-gg-plots-in-non-pdf-output
+categories: []
+tags:
+  - R Markdown
+  - ggplot
+image:
+  caption: ''
+  focal_point: ''
+---
+
+This is a quick update to an earlier post about changing/improving the output of graphics, i.e. ggplot, in "other" RMarkdown output formats, e.g. MS Word.
+
+In my view one of the annoying features of RMarkdown, knitr, and friends is that graphics/ggplots knitted to MS Word look ... let's say ... shabby.
+I am cognisant of the technicalitiesx, read a lot about it, but it is way above my head how to re-write what would be needed. 
+Thus, I am using one of the workarounds: setting the print device to cairo and dpi.
+
+````
+# the workaround
+if (knitr::opts_knit$get("rmarkdown.pandoc.to") != "latex") {
+  knitr::opts_chunk$set(dpi = 300, dev.args = list(type = "cairo"))
+````
+
+This works well wenn the Rmd is knitted or rendered programmatically.
+However, executing the code chunk by hand in RStudio will throw an error.
+Obviously, the if() conditions throws an error as the Rmd is not knitted/rendered - or in other words read in a knitr/pandoc pipeline. 
+
+For quite a while I circumnavigated that problem by either commenting out the lines above `# if(knitr::opts ... ` or removing the r-engine pointer from the code chunk header, i.e. ` ```{ setup, ... } ... ` instead of ` ```{r setup, ...} .... `. Obviously, the commenting out needs to be removed before knitting the document to its less-shabby-graphics format or you have to live with a code-block/monospace text block unless putting the `r` back in. 
+Both options require to keep this in mind and/or fix it.
+Being categorically bad in remembering this or rolling the eyes when I yet saw the text block after rendering the Rmd, I regularly scanned for other ways of doing it.
+
+The other day, I tried to understand `{purrr}`'s `safely()` function.
+It did what I wanted it to do in the other context: accepting a function to throw an error without interrupting the script/further execution.
+
+Hence, I wrap the configuration call into a function and call it with `purrr::safely()`.
+
+````
+# helper function to ensure nice(r) looking graphics in MS Word output
+# defines dpi and cairo, if not wrapped in safely, the chunk fails if run by
+# hand, i.e. if(knitr::opts()$get has issues if run by hand!
+knit_quality_vis <- function(){
+  if (knitr::opts_knit$get("rmarkdown.pandoc.to") != "latex") {
+    knitr::opts_chunk$set(dpi = 300, dev.args = list(type = "cairo"))
+  }
+} 
+purrr::safely(.f = high_quality_vis)
+````
+
+Works like a charm when the code chunk is run by hand, run-all-chunks-above, or with a run-all call.
+And performs like expected when knitted/rendered programmatically.
+
+If anyone out there has found a better way to do this, please give me a nudge!
