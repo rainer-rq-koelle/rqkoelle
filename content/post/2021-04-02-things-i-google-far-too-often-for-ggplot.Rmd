@@ -11,11 +11,14 @@ image:
   focal_point: ''
 ---
 
+original post updated: `r format(Sys.Date(), format = "%d %B %Y")`.
+
 ## Aide memoire & lookup post.  {#top}
 
 `{ggplot2}` is awesome. But I find me regularly googling for the things below. This post is a shortcut as I do not need to chase older pages I visited on my questions.
 
 * [force axis limits](#axislimits)
+* [order barchart](#orderbars)
 * [position labels on dodged barcharts](#labeldodgebarchart)
 
 ### Force axis limits {#axislimits}
@@ -27,6 +30,24 @@ with xlim, ylim one "zooms" into the given dimensions or
 ```` 
 
 check what expand = c(0,0) is doing - think cutting the additional space.
+[back to top](#top)
+
+
+### Order Bars in Barchart {#orderbars}
+
+One of the recurring tasks is to oder the bars in a barchart. 
+
+There are 2 options to deal with this problem:
+
+* "force" sequence by introducing a factor in the data frame
+* use of reorder(x, other-order-var) or fct_reorder(...)
+* supply a scale_x_discrete(... levels = c(...), labels = c(...))
+
+the first and 3rd option are equivalient, although strictly speaking the first option changes the type of the (created or coerced) factor variable column while the scale layer acts on the tibble during the graphic generation (i.e. does not change the dataframe formatting).
+
+The first option is the most flexible one, as it allows to use `arrange()` (and other operations) to sort the dataframe/tibble to our liking. Then apply a mutate(ordervar = factor(ordervar, levels = ordervar)). The levels sets the (positional) sequence in the given order variable column.
+
+to-do: add example code and graphics
 [back to top](#top)
 
 ### Dodged Barcharts - position text {#labeldodgebarchart}

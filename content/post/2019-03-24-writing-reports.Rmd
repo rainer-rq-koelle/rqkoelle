@@ -10,7 +10,7 @@ image:
   focal_point: ''
 ---
 
-This post was last updated on `r format(Sys.Date(), "%Y-%m-%d")`.
+This post was last updated on `r format(Sys.Date(), "%d %B %Y")`.
 
 # Overview 
 
@@ -38,6 +38,19 @@ RMarkdown is pretty cool and it is too straight forward to add more here.
 
 `bookdown` has overcome a lot of the knitr/RMarkdown shortcomings in terms of cross-referencing.
 For any type of writing the 'long formats' are actually my default go-to.
+
+In particular, set YAML output to bookdown:: ... :`html_document2`, `pdf_document2`, and `word_document2`
+
+For specific confernce paper outputs use {rticles} and call the output format as follows:
+
+``` 
+---
+... 
+output:
+  bookdown::pdf_book:
+    base_format: rticles::plos_article
+---
+``` 
 
 ## Installation
 

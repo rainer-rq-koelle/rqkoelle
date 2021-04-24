@@ -13,11 +13,13 @@ image:
 
 
 
+<p>original post updated: 24 April 2021.</p>
 <div id="top" class="section level2">
 <h2>Aide memoire &amp; lookup post.</h2>
 <p><code>{ggplot2}</code> is awesome. But I find me regularly googling for the things below. This post is a shortcut as I do not need to chase older pages I visited on my questions.</p>
 <ul>
 <li><a href="#axislimits">force axis limits</a></li>
+<li><a href="#orderbars">order barchart</a></li>
 <li><a href="#labeldodgebarchart">position labels on dodged barcharts</a></li>
 </ul>
 <div id="axislimits" class="section level3">
@@ -25,6 +27,20 @@ image:
 <p>with xlim, ylim one “zooms” into the given dimensions or</p>
 <pre><code>  scale_x_continuous(..., limits = c(0, NA))</code></pre>
 <p>check what expand = c(0,0) is doing - think cutting the additional space.
+<a href="#top">back to top</a></p>
+</div>
+<div id="orderbars" class="section level3">
+<h3>Order Bars in Barchart</h3>
+<p>One of the recurring tasks is to oder the bars in a barchart.</p>
+<p>There are 2 options to deal with this problem:</p>
+<ul>
+<li>“force” sequence by introducing a factor in the data frame</li>
+<li>use of reorder(x, other-order-var) or fct_reorder(…)</li>
+<li>supply a scale_x_discrete(… levels = c(…), labels = c(…))</li>
+</ul>
+<p>the first and 3rd option are equivalient, although strictly speaking the first option changes the type of the (created or coerced) factor variable column while the scale layer acts on the tibble during the graphic generation (i.e. does not change the dataframe formatting).</p>
+<p>The first option is the most flexible one, as it allows to use <code>arrange()</code> (and other operations) to sort the dataframe/tibble to our liking. Then apply a mutate(ordervar = factor(ordervar, levels = ordervar)). The levels sets the (positional) sequence in the given order variable column.</p>
+<p>to-do: add example code and graphics
 <a href="#top">back to top</a></p>
 </div>
 <div id="labeldodgebarchart" class="section level3">

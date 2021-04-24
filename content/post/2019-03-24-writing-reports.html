@@ -12,7 +12,7 @@ image:
 
 
 
-<p>This post was last updated on 2020-08-14.</p>
+<p>This post was last updated on 24 April 2021.</p>
 <div id="overview" class="section level1">
 <h1>Overview</h1>
 <p>This post is an aide-memoire for my future me. Throughout the recent months/years I have subsequently moved my writing to RMarkdown.
@@ -36,6 +36,14 @@ Nonetheless, I find myself going back to my past projects to install the same (o
 <h1>Technical Reports</h1>
 <p><code>bookdown</code> has overcome a lot of the knitr/RMarkdown shortcomings in terms of cross-referencing.
 For any type of writing the ‘long formats’ are actually my default go-to.</p>
+<p>In particular, set YAML output to bookdown:: … :<code>html_document2</code>, <code>pdf_document2</code>, and <code>word_document2</code></p>
+<p>For specific confernce paper outputs use {rticles} and call the output format as follows:</p>
+<pre><code>---
+... 
+output:
+  bookdown::pdf_book:
+    base_format: rticles::plos_article
+---</code></pre>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
 <p>obviously RMarkdown and bookdown. For RMarkdown open a new file in RMarkdown in RStudio. If not installed, this will result in the (automatic) installation of the required packages.</p>
