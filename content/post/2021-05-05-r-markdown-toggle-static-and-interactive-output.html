@@ -17,7 +17,7 @@ image:
 In some instances html pages / document do not work and I have to fall back to - sometimes even - MS Word.<br />
 Throughout the last months bookdowns is more frequently used.
 The multi-page “build” of a document is a tempting feature to have static documents produced on the fly.</p>
-<p>For <code>{plotly}</code> there is another workaround using <code>{webshot}</code> or <code>{webshot2}</code> and <code>phantom.js</code> as described in this <a href="2021/02/01/plotly-to-static-image-for-pdf-or-word/">older post</a>. I played around with it and it works. My struggle were to get phantom.js running on my work laptop (no admin rights &amp; IT security settings requiring libraries in certain folders).<br />
+<p>For <code>{plotly}</code> there is another workaround using <code>{webshot}</code> or <code>{webshot2}</code> and <code>phantom.js</code> as described in this <a href="2021-02-01-plotly-to-static-image-for-pdf-or-word/">older post</a>. I played around with it and it works. My struggle were to get phantom.js running on my work laptop (no admin rights &amp; IT security settings requiring libraries in certain folders).<br />
 The workflow is then to save out the interactive plot taking a “snapshot” of it and embedding it back into the Rmd. As said, it works. I just do not find it elegant.</p>
 <p>This save-out-and-embed-again approach can be emulated by toggling between code-chunks for the static or interactive output.
 The cost of this implementation is in the need to code an interactive and static version of the plot (or table).</p>
