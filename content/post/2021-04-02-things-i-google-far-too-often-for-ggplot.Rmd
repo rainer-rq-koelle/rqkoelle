@@ -13,7 +13,7 @@ image:
 
 original post updated: `r format(Sys.Date(), format = "%d %B %Y")`.
 
-## Aide memoire & lookup post.  {#top}
+## Aide memoire & lookup post  {#top}
 
 `{ggplot2}` is awesome. But I find me regularly googling for the things below. This post is a shortcut as I do not need to chase older pages I visited on my questions.
 

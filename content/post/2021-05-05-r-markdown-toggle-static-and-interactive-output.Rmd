@@ -1,0 +1,79 @@
+---
+title: R Markdown Toggle static and interactive output
+author: RQ
+date: '2021-05-05'
+slug: r-markdown-toggle-static-and-interactive-output
+categories: []
+tags:
+  - R Markdown
+image:
+  caption: ''
+  focal_point: ''
+---
+
+One of the problems I regularly face is to toggle the RMarkdown outputs.
+In some instances html pages / document do not work and I have to fall back to - sometimes even - MS Word.    
+Throughout the last months bookdowns is more frequently used. 
+The multi-page "build" of a document is a tempting feature to have static documents produced on the fly.
+
+For `{plotly} there is another workaround using `{webshot}` or `{webshot2}`. I played around with it and it works. My struggle were to get phantom.js running on my work laptop (no admin rights & IT security settings requiring libraries in certain folders).     
+The workflow is then to save out the interactive plot taking a "snapshot" of it and embedding it back into the Rmd. As said, it works. I just do not find it elegant.
+
+This save-out-and-embed-again approach can be emulated by toggling between code-chunks for the static or interactive output.
+The cost of this implementation is in the need to code an interactive and static version of the plot (or table).
+
+Still I think this is far more intuitive.
+
+## Toggling code chunks in Rmd
+
+The knitr packages contains two functions supporting the identification of the output render format: 
+
+* `knitr::is_html_output()` and 
+* `knitr::is_latex_output()`. 
+
+Evaluating these functions in the code chunk header allows to toggle and use plotly when the output is html and ggplot when the output is pdf.
+
+````
+---
+title: "test"
+author: "Jared_Mamrot"
+date: "05/05/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{ setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages("plotly")
+library(plotly)
+library(tidyverse)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{ cars}
+summary(cars)
+```
+
+## HTML only section
+
+```{ eval=knitr::is_html_output(), echo=FALSE}
+test_plot <- ggplot(cars, aes(x = speed, y = dist)) +
+  geom_point()
+ggplotly(p = test_plot)
+```
+
+## PDF only section
+
+```{ eval=knitr::is_latex_output(), echo=FALSE}
+test_plot <- ggplot(cars, aes(x = speed, y = dist)) +
+  geom_point()
+test_plot
+```
+
+````
