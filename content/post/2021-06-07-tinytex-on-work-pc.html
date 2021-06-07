@@ -38,6 +38,13 @@ If knit-to-pdf hangs or fails, run</p>
 </ul>
 <p>If tinytex coughs up, there is normally an attempt to download the missing packages. I still have not really found out why/when. The text also suggests that the download from the chosen mirror is failing.
 However, the messages comprise a pointer to the missing packages.</p>
+<p>For example, a recent drill resultet in these messages:</p>
+<pre><code>tlmgr.pl: package repository http://ftp.math.purdue.edu/mirrors/ctan.org/systems/texlive/tlnet (not verified: unknown)
+[1/2, ??:??/??:??] install: IEEEtran [88k]
+TLPDB::_install_data: downloading did not succeed (download_file failed) for http://ftp.math.purdue.edu/mirrors/ctan.org/systems/texlive/tlnet/archive/IEEEtran.tar.xz
+[2/2, 07:51/08:09] install: xtuthesis [4k]
+TLPDB::_install_data: downloading did not succeed (download_file failed) for http://ftp.math.purdue.edu/mirrors/ctan.org/systems/texlive/tlnet/archive/xtuthesis.tar.xz
+tlmgr.pl: package log updated: C:/Users/rkoelle/dev/TinyTeX/texmf-var/web2c/tlmgr.log</code></pre>
 <p>With this one can install the packages by hand</p>
 <pre><code>tinytex::tlmgr_install(&quot;nameofmissingpackage&quot;).</code></pre>
 </div>
@@ -48,4 +55,7 @@ However, the messages comprise a pointer to the missing packages.</p>
 <pre><code>&gt; tinytex::parse_packages(&quot;paper.log&quot;)
 tlmgr search --file --global &quot;/IEEEtran.cls&quot;
 [1] &quot;IEEEtran&quot;  &quot;xtuthesis&quot;</code></pre>
+<p>Most of the times, <code>parse_install()</code> fails. Thus, I regularly do this by hand</p>
+<pre><code>tinytex::tlmgr_install(&quot;IEEEtran&quot;)</code></pre>
+<p>Good luck with updating tinytex!</p>
 </div>

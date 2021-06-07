@@ -45,6 +45,17 @@ If knit-to-pdf hangs or fails, run
 If tinytex coughs up, there is normally an attempt to download the missing packages. I still have not really found out why/when. The text also suggests that the download from the chosen mirror is failing. 
 However, the messages comprise a pointer to the missing packages.
 
+For example, a recent drill resultet in these messages:
+
+```
+tlmgr.pl: package repository http://ftp.math.purdue.edu/mirrors/ctan.org/systems/texlive/tlnet (not verified: unknown)
+[1/2, ??:??/??:??] install: IEEEtran [88k]
+TLPDB::_install_data: downloading did not succeed (download_file failed) for http://ftp.math.purdue.edu/mirrors/ctan.org/systems/texlive/tlnet/archive/IEEEtran.tar.xz
+[2/2, 07:51/08:09] install: xtuthesis [4k]
+TLPDB::_install_data: downloading did not succeed (download_file failed) for http://ftp.math.purdue.edu/mirrors/ctan.org/systems/texlive/tlnet/archive/xtuthesis.tar.xz
+tlmgr.pl: package log updated: C:/Users/rkoelle/dev/TinyTeX/texmf-var/web2c/tlmgr.log
+```
+
 With this one can install the packages by hand
 
 ```
@@ -62,3 +73,12 @@ The following ran for a good 20 min on the dummy Rmd page for bookdown::pdf_book
 tlmgr search --file --global "/IEEEtran.cls"
 [1] "IEEEtran"  "xtuthesis"
 ```
+
+Most of the times, `parse_install()` fails. Thus, I regularly do this by hand
+
+```
+tinytex::tlmgr_install("IEEEtran")
+```
+
+Good luck with updating tinytex!
+
