@@ -1,0 +1,64 @@
+---
+title: 'TinyTex on work PC '
+author: RQ
+date: '2021-06-07'
+slug: tinytex-on-work-pc
+categories:
+  - R
+tags: []
+image:
+  caption: ''
+  focal_point: ''
+---
+
+Once every so often I run into problems with TinyTex on my Windows work laptop.
+And every time this happens, I realise that I should have jotted down what I did to overcome the issues.
+
+# issues
+
+We cannot use the built in install_tinytex() as this puts the installation in the wrong place.
+
+From time to time additional LATEX packages need to be added.
+
+# download and setup
+
+At work we have no admin rights on our laptops. From an IT security perspective, we have been granted some writing and load library rights from the `dev` subfolder on C.
+
+As we cannot use the install_tinytex, download the latest "release" from
+
+https://github.com/yihui/tinytex-releases
+
+Setup/make sure the path in the Environment Variables is added/correct.
+
+```
+C:\Users\rkoelle\dev\TinyTeX\bin\win32
+```
+
+# download missing LATEX packages
+
+Since a while `{tinytex}` comes with 2 nifty utility functions to check for (or launch immediately the installation of) missing packages.
+If knit-to-pdf hangs or fails, run
+
+* tinytex::parse_packages("paper.log") to check for a list of missing package
+* tinytex::parse_install("paper.log") to check and launch the download of the missing package(s)
+
+If tinytex coughs up, there is normally an attempt to download the missing packages. I still have not really found out why/when. The text also suggests that the download from the chosen mirror is failing. 
+However, the messages comprise a pointer to the missing packages.
+
+With this one can install the packages by hand
+
+```
+tinytex::tlmgr_install("nameofmissingpackage").
+```
+
+# experience
+
+Might take time! Grab a coffee!
+
+The following ran for a good 20 min on the dummy Rmd page for bookdown::pdf_book:base_format:ieee_article. The rendering failed and executing the parse_packages on the log file took a while. :)
+
+```
+> tinytex::parse_packages("paper.log")
+tlmgr search --file --global "/IEEEtran.cls"
+[1] "IEEEtran"  "xtuthesis"
+```

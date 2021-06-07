@@ -1,0 +1,51 @@
+---
+title: 'TinyTex on work PC '
+author: RQ
+date: '2021-06-07'
+slug: tinytex-on-work-pc
+categories:
+  - R
+tags: []
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+
+<p>Once every so often I run into problems with TinyTex on my Windows work laptop.
+And every time this happens, I realise that I should have jotted down what I did to overcome the issues.</p>
+<div id="issues" class="section level1">
+<h1>issues</h1>
+<p>We cannot use the built in install_tinytex() as this puts the installation in the wrong place.</p>
+<p>From time to time additional LATEX packages need to be added.</p>
+</div>
+<div id="download-and-setup" class="section level1">
+<h1>download and setup</h1>
+<p>At work we have no admin rights on our laptops. From an IT security perspective, we have been granted some writing and load library rights from the <code>dev</code> subfolder on C.</p>
+<p>As we cannot use the install_tinytex, download the latest “release” from</p>
+<p><a href="https://github.com/yihui/tinytex-releases" class="uri">https://github.com/yihui/tinytex-releases</a></p>
+<p>Setup/make sure the path in the Environment Variables is added/correct.</p>
+<pre><code>C:\Users\rkoelle\dev\TinyTeX\bin\win32</code></pre>
+</div>
+<div id="download-missing-latex-packages" class="section level1">
+<h1>download missing LATEX packages</h1>
+<p>Since a while <code>{tinytex}</code> comes with 2 nifty utility functions to check for (or launch immediately the installation of) missing packages.
+If knit-to-pdf hangs or fails, run</p>
+<ul>
+<li>tinytex::parse_packages(“paper.log”) to check for a list of missing package</li>
+<li>tinytex::parse_install(“paper.log”) to check and launch the download of the missing package(s)</li>
+</ul>
+<p>If tinytex coughs up, there is normally an attempt to download the missing packages. I still have not really found out why/when. The text also suggests that the download from the chosen mirror is failing.
+However, the messages comprise a pointer to the missing packages.</p>
+<p>With this one can install the packages by hand</p>
+<pre><code>tinytex::tlmgr_install(&quot;nameofmissingpackage&quot;).</code></pre>
+</div>
+<div id="experience" class="section level1">
+<h1>experience</h1>
+<p>Might take time! Grab a coffee!</p>
+<p>The following ran for a good 20 min on the dummy Rmd page for bookdown::pdf_book:base_format:ieee_article. The rendering failed and executing the parse_packages on the log file took a while. :)</p>
+<pre><code>&gt; tinytex::parse_packages(&quot;paper.log&quot;)
+tlmgr search --file --global &quot;/IEEEtran.cls&quot;
+[1] &quot;IEEEtran&quot;  &quot;xtuthesis&quot;</code></pre>
+</div>
