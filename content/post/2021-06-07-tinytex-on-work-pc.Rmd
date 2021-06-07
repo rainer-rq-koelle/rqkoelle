@@ -34,6 +34,15 @@ Setup/make sure the path in the Environment Variables is added/correct.
 C:\Users\rkoelle\dev\TinyTeX\bin\win32
 ```
 
+if several downloads fail, think about setting a different repo
+
+``` 
+> tinytex::tlmgr_repo(url = "http://mirror.physik-pool.tu-berlin.de/pub/CTAN/")
+tlmgr option repository "http://mirror.physik-pool.tu-berlin.de/pub/CTAN/systems/texlive/tlnet"
+tlmgr.pl: setting default package repository to http://mirror.physik-pool.tu-berlin.de/pub/CTAN/systems/texlive/tlnet
+tlmgr.pl: updating C:/Users/rkoelle/dev/TinyTeX/tlpkg/texlive.tlpdb
+```
+
 # download missing LATEX packages
 
 Since a while `{tinytex}` comes with 2 nifty utility functions to check for (or launch immediately the installation of) missing packages.
