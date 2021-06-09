@@ -1,0 +1,81 @@
+---
+title: Writing a paper with bookdown and rticles IEEE
+author: RQ
+date: '2021-06-09'
+slug: writing-a-paper-with-bookdown-and-rticles-ieee
+categories:
+  - R
+tags:
+  - R Markdown
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+
+<p>Part of my regular activities is writing papers for conferences. Over time, I have developed a <strong>skeleton</strong> to get me kick-started. Since moving to R &amp; RMarkdown, there is a bit of infrastructure setup involved.</p>
+<p>Voila my YAML for a bookdown paper using rticles IEEE template.
+Just paste and copy … and get going!</p>
+<pre><code>---
+title: &quot;Building Back Better – Democratisation of Performance Monitoring with Open Data&quot;
+date: &quot;09 June 2021&quot;
+output:
+  bookdown::pdf_book:
+     base_format: rticles::ieee_article
+bibliography: &quot;DASC2021.bib&quot;
+affiliation:
+  ## use one only of the following
+  # author-columnar: true         ## one column per author
+  institution-columnar: true  ## one column per institution  
+  # wide: true          ## one column wide author/affiliation fields
+  institution:
+    - name: EUROCONTROL
+      department: Performance Review Unit
+      location: Brussels (Belgium)
+      #mark: 1
+      author:
+        - name: Rainer Koelle
+          email: rainer.koelle@eurocontrol.int
+    - name: cooperation university/organisation
+      department: tbd ... 
+      location: tbd location
+      #mark: 2
+      author:
+        - name: name of 2nd author
+          email: second_author@somedomain.com
+abstract: |
+  Here goes the abstract of the paper. 
+  &lt;!-- motivation --&gt;
+  &lt;!-- short background - why important --&gt;
+  &lt;!-- approach chosen / research method --&gt;
+  &lt;!-- experimental work --&gt;
+  &lt;!-- results obtained --&gt;
+  &lt;!-- conclusions / key take-away --&gt;
+---
+
+
+
+# Introduction
+
+&lt;!--| 1. Nature of the problem. --&gt;
+
+&lt;!-- 2. Background of previous work - High-level background/driver of work. --&gt;
+&lt;!-- 3. Purpose and significance of the paper.   --&gt;
+&lt;!-- 4. Method by which the problem is approached.  --&gt;
+&lt;!-- 5. Organization of the paper. --&gt;
+
+# Materials and methods / System model / Conceptual Approach
+
+# Results
+
+# Conclusions
+&lt;!-- 1. What is shown by this work and its significance.  --&gt;
+&lt;!-- 2. Limitations and advantages.  --&gt;
+&lt;!-- 3. Applications of the results. --&gt;
+&lt;!-- 4. Recommendations for further work.  --&gt;
+
+
+# Acknowledgment {-}
+
+# References {-}</code></pre>
