@@ -14,7 +14,7 @@ image:
 
 Part of my regular activities is writing papers for conferences. Over time, I have developed a **skeleton** to get me kick-started. Since moving to R & RMarkdown, there is a bit of infrastructure setup involved.
 
-Voila my YAML for a bookdown paper using rticles IEEE template.
+Voila my YAML and basic paper structure for a `{bookdown}`-supported paper using `{rticles}`' IEEE template.
 Just paste and copy ... and get going!
 
 ```
@@ -37,7 +37,7 @@ affiliation:
       #mark: 1
       author:
         - name: Rainer Koelle
-          email: rainer.koelle@eurocontrol.int
+          email: my email
     - name: cooperation university/organisation
       department: tbd ... 
       location: tbd location
