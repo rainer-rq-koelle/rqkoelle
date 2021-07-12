@@ -18,6 +18,7 @@ original post updated: `r format(Sys.Date(), format = "%d %B %Y")`.
 `{ggplot2}` is awesome. But I find me regularly googling for the things below. This post is a shortcut as I do not need to chase older pages I visited on my questions.
 
 * [force axis limits](#axislimits)
+* [setting scales](#settingscales)
 * [order barchart](#orderbars)
 * [position labels on dodged barcharts](#labeldodgebarchart)
 
@@ -32,6 +33,20 @@ with xlim, ylim one "zooms" into the given dimensions or
 check what expand = c(0,0) is doing - think cutting the additional space.
 [back to top](#top)
 
+### Setting Scales {#settingscales}
+
+Similar to picking axis limits (and other stuff) {ggplot} is a bit ignorant when it comes to human readable x- or y-axis scales :)
+
+`scales::label_number_si()` defaults to SI units (e.g. M for 10^6).    
+Alternatively, the format can be specified with unit (or accuracy ?!?)
+````
+scale_y_continuous(labels = scales::label_number_si())
+````
+```` 
+scale_y_continuous(labels = unit_format(unit = "M", scale = 1e-6))
+```` 
+
+[back to top](#top)
 
 ### Order Bars in Barchart {#orderbars}
 

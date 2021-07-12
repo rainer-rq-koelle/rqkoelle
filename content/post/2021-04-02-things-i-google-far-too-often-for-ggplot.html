@@ -13,12 +13,13 @@ image:
 
 
 
-<p>original post updated: 05 May 2021.</p>
+<p>original post updated: 12 July 2021.</p>
 <div id="top" class="section level2">
 <h2>Aide memoire &amp; lookup post</h2>
 <p><code>{ggplot2}</code> is awesome. But I find me regularly googling for the things below. This post is a shortcut as I do not need to chase older pages I visited on my questions.</p>
 <ul>
 <li><a href="#axislimits">force axis limits</a></li>
+<li><a href="#settingscales">setting scales</a></li>
 <li><a href="#orderbars">order barchart</a></li>
 <li><a href="#labeldodgebarchart">position labels on dodged barcharts</a></li>
 </ul>
@@ -28,6 +29,15 @@ image:
 <pre><code>  scale_x_continuous(..., limits = c(0, NA))</code></pre>
 <p>check what expand = c(0,0) is doing - think cutting the additional space.
 <a href="#top">back to top</a></p>
+</div>
+<div id="settingscales" class="section level3">
+<h3>Setting Scales</h3>
+<p>Similar to picking axis limits (and other stuff) {ggplot} is a bit ignorant when it comes to human readable x- or y-axis scales :)</p>
+<p><code>scales::label_number_si()</code> defaults to SI units (e.g. M for 10^6).<br />
+Alternatively, the format can be specified with unit (or accuracy ?!?)</p>
+<pre><code>scale_y_continuous(labels = scales::label_number_si())</code></pre>
+<pre><code>scale_y_continuous(labels = unit_format(unit = &quot;M&quot;, scale = 1e-6))</code></pre>
+<p><a href="#top">back to top</a></p>
 </div>
 <div id="orderbars" class="section level3">
 <h3>Order Bars in Barchart</h3>
