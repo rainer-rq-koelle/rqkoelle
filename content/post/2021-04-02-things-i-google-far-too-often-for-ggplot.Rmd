@@ -45,6 +45,12 @@ scale_y_continuous(labels = scales::label_number_si())
 ```` 
 scale_y_continuous(labels = unit_format(unit = "M", scale = 1e-6))
 ```` 
+To get/use percentages:
+```` 
+scale_y_continuous(labels = scales::percent_format(accuracy = 1))
+````
+accuracy = 1 give "full" percentages, for decimals use accuracy = 0.1, etc.
+
 
 [back to top](#top)
 

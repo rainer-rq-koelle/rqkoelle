@@ -13,7 +13,7 @@ image:
 
 
 
-<p>original post updated: 12 July 2021.</p>
+<p>original post updated: 29 July 2021.</p>
 <div id="top" class="section level2">
 <h2>Aide memoire &amp; lookup post</h2>
 <p><code>{ggplot2}</code> is awesome. But I find me regularly googling for the things below. This post is a shortcut as I do not need to chase older pages I visited on my questions.</p>
@@ -37,6 +37,9 @@ image:
 Alternatively, the format can be specified with unit (or accuracy ?!?)</p>
 <pre><code>scale_y_continuous(labels = scales::label_number_si())</code></pre>
 <pre><code>scale_y_continuous(labels = unit_format(unit = &quot;M&quot;, scale = 1e-6))</code></pre>
+<p>To get/use percentages:</p>
+<pre><code>scale_y_continuous(labels = scales::percent_format(accuracy = 1))</code></pre>
+<p>accuracy = 1 give “full” percentages, for decimals use accuracy = 0.1, etc.</p>
 <p><a href="#top">back to top</a></p>
 </div>
 <div id="orderbars" class="section level3">
