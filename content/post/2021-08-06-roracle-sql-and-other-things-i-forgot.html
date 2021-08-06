@@ -1,0 +1,106 @@
+---
+title: ROracle, SQL, and other things I forgot
+author: RQ
+date: '2021-08-06'
+slug: roracle-sql-and-other-things-i-forgot
+categories:
+  - R
+tags: []
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+
+<p>This week marks me reinstalling <code>{ROracle}</code> and looking into accessing our datawarehouse directly from R. Something I had pushed for a quite a while now.</p>
+<div id="getting-up-and-running" class="section level2">
+<h2>Getting up and running</h2>
+<p>Installing ROracle on our work laptops is not a “straight forward” excercise. There exists also quite a number of blog posts and messages highlighting that this is generally a pain on other systems as well.</p>
+<p>For ECTRL check out the installation guide set-up by Enrico.</p>
+<p>In particular, follow the given path and copy the <strong>pre-compiled</strong> ROracle library from the central drive to your personal user account library folder (something in … dev-library\4.0).</p>
+<p>Install <code>{DBI}</code>.</p>
+<p>In a nutshell this should do it.</p>
+</div>
+<div id="workflow" class="section level2">
+<h2>Workflow</h2>
+<p>To work with PRISME, we need a “connection”:
+For this we set the database driver and some user and database details.</p>
+<p>The following helper function gets us connected.<br />
+As recommended elsewhere, never save a password in a script, etc.
+Thus, we use <code>askForPassword()</code> … you should know the pw :)</p>
+<pre><code>connect_to_prisme &lt;- function(.dbname = &quot;porape5&quot;, .user = &quot;prutest&quot;){
+    drv &lt;- DBI::dbDriver(&quot;Oracle&quot;)
+    con &lt;- DBI::dbConnect(
+         drv
+        ,dbname   = .dbname,
+        ,  user   = .user
+        ,password = rstudioapi::askForPassword(&quot;Database password&quot;)
+                     )
+    return(con)
+}
+
+# store connection session
+con &lt;- connect_to_prisme()</code></pre>
+</div>
+<div id="sniffing-around" class="section level2">
+<h2>Sniffing around</h2>
+<p>The principle of databasing is “send a query” and “store/process” the result.</p>
+<p>The following are some “looking around” things</p>
+<pre><code>rs  &lt;- dbSendQuery(con, &quot;select view_name from user_views&quot;)
+dat &lt;- fetch(rs)
+head(dat)</code></pre>
+<p>Check out what tables we can access:</p>
+<pre><code>rs &lt;- dbSendQuery(con, &quot;SELECT
+  table_name, owner
+FROM
+  all_tables
+ORDER BY
+  owner, table_name
+&quot;)
+prisme_tbls &lt;- fetch(rs)</code></pre>
+</div>
+<div id="querying-the-apdf-fact-table" class="section level2">
+<h2>Querying the APDF FACT table</h2>
+<pre><code>rs &lt;- dbSendQuery(con, &quot;SELECT *
+                     FROM SWH_FCT. FAC_APDS_FLIGHT_IR691
+                   WHERE SRC_airport = &#39;EDDF&#39;
+                   and SRC_DATE_FROM &gt;= &#39;01-JAN-21&#39;
+                   and SRC_DATE_FROM &lt; &#39;01-AUG-21&#39; &quot;)
+eddf &lt;- fetch(rs)</code></pre>
+<p>Construct better queries by using relevant colnames:
+&gt; names(eddf)
+[1] “APDS_ID” “AP_C_FLTID” “AP_C_REG” “SK_ADEP_ID”<br />
+[5] “BK_ADEP_ID” “ADEP_ICAO” “SK_ADES_ID” “BK_ADES_ID”<br />
+[9] “ADES_ICAO” “MVT_TIME_UTC” “CPF_MVT_TIME_UTC” “CFMU_MVT_TIME_UTC”<br />
+[13] “AP_MVT_TIME_UTC” “CODA_MVT_TIME_UTC” “BLOCK_TIME_UTC” “AP_BLOCK_TIME_UTC”<br />
+[17] “CODA_BLOCK_TIME_UTC” “SCHED_TIME_UTC” “AP_C_FLTRUL” “AP_C_FLTTYP”<br />
+[21] “CFMU_FLTTYP” “ARCTYP” “SK_AC_TYPE_ID” “BK_AC_TYPE_ID”<br />
+[25] “AP_C_ARCTYP” “AP_S_ARCTYP” “CFMU_ARCTYP” “AC_CLASS”<br />
+[29] “AP_C_RWY” “AP_C_STND” “AP_S_RWY” “AP_S_STND”<br />
+[33] “AP_C_STATUS” “SRC_AIRPORT” “SRC_PROJECT” “SRC_SYSTEM”<br />
+[37] “SRC_PHASE” “SRC_DATE_FROM” “SRC_DATE_TO” “IM_SAMAD_ID”<br />
+[41] “IM_LOBT” “IM_ACTUAL_OUT” “IM_EXEC_DATE” “APDS_CREA_LOG_TASK_ID”<br />
+[45] “APDS_CONV_LOG_TASK_ID” “APDS_IM_LOG_TASK_ID” “CPF_AIRPORT_LAT” “CPF_AIRPORT_LON”<br />
+[49] “C40_CROSS_TIME” “C40_CROSS_LAT” “C40_CROSS_LON” “C40_CROSS_FL”<br />
+[53] “C100_CROSS_TIME” “C100_CROSS_LAT” “C100_CROSS_LON” “C100_CROSS_FL”<br />
+[57] “C40_TRANSIT_TIME_MIN” “C100_TRANSIT_TIME_MIN” “TAXI_TIME_MIN” “C40_BEARING”<br />
+[61] “C100_BEARING” “C40_ARR_IN_FRONT” “C100_ARR_IN_FRONT” “ARR_PRECEDING_1H”<br />
+[65] “TF_PRECEDING_1H” “CREA_LOG_TASK_ID” “ARR_THROUGHPUT_20MIN” “DEP_THROUGHPUT_20MIN”<br />
+[69] “TF_IN_OUT_WHILE_TAXIOUT” “TF_IN_OUT_WHILE_TAXIOUT_CODA” “CODA_AIRLINE” “CODA_QC”<br />
+[73] “C40_CROSS_TIME_CTFM” “C100_CROSS_TIME_CTFM” “C40_CROSS_TIME_CPF” “C100_CROSS_TIME_CPF”<br />
+[77] “A40_ENTRY_SECTOR” “A40_UNIMPEDED_TIME” “A40_UNIMPEDED_DIST_KM” “A40_SATURATION_LEVEL”<br />
+[81] “A40_IS_UNIMPEDED” “A100_ENTRY_SECTOR” “A100_UNIMPEDED_TIME” “A100_UNIMPEDED_DIST_KM”<br />
+[85] “A100_SATURATION_LEVEL” “A100_IS_UNIMPEDED” “TAXI_OUT_UNIMPEDED_TIME” “TAXI_OUT_SATURATION_LEVEL”<br />
+[89] “TAXI_OUT_IS_UNIMPEDED” “PREV_BLOCK_TIME_UTC” “CFMU_RTE_LEN_KM” “CFMU_FLIGHT_DURATION_HOUR”<br />
+[93] “C40_TRANSIT_DIST_KM” “C100_TRANSIT_DIST_KM” “SVCTYP” “IFPLID”<br />
+[97] “DLY_SUB1” “DLY_SUB2” “DLY_SUB3” “DLY_SUB4”<br />
+[101] “DLY_SUB5” “DLY1” “DLY2” “DLY3”<br />
+[105] “DLY4” “DLY5” “ARR_THR_20MIN_NONTRUNC” “DEP_THR_20MIN_NONTRUNC”<br />
+[109] “DLY_TIME1” “DLY_TIME2” “DLY_TIME3” “DLY_TIME4”<br />
+[113] “DLY_TIME5” “ASLT_UTC” “DSLT_UTC” “DE_ANTI_ICING”<br />
+[117] “MVT_TIME_LT” “CODA_DLY1” “CODA_DLY2” “CODA_DLY3”<br />
+[121] “CODA_DLY4” “CODA_DLY5” “CODA_DLY_TIME1” “CODA_DLY_TIME2”<br />
+[125] “CODA_DLY_TIME3” “CODA_DLY_TIME4” “CODA_DLY_TIME5” “TF_IN_OUT_WHILE_TAXIIN”<br />
+[129] “TF_IN_OUT_WHILE_TAXIIN_CODA”</p>
+</div>
