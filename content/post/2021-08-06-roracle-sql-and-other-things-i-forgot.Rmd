@@ -122,7 +122,23 @@ Construct better queries by using relevant colnames:
 [125] "CODA_DLY_TIME3"               "CODA_DLY_TIME4"               "CODA_DLY_TIME5"               "TF_IN_OUT_WHILE_TAXIIN"      
 [129] "TF_IN_OUT_WHILE_TAXIIN_CODA" 
 
+## Some regular stuff I do
 
+load connection with above function
+
+with `tbl(con, sql(query))` I can launch a sort of "lazy connection"to PRISME/Oracle database, and work onwards with dplyr queries.
+
+to download the data append `%>% collect()`
+
+```
+library(ROracle)
+library(dplyr)
+library(dbplyr)
+
+
+sql <- "SELECT * FROM SWH_FCT.FAC_AXDS_CANCELLED_FLIGHT"
+cncl_db <- tbl(con, sql(sql))
+```
 
 ## Resources
 

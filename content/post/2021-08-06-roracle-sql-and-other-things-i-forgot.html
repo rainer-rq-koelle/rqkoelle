@@ -104,3 +104,21 @@ eddf &lt;- fetch(rs)</code></pre>
 [125] “CODA_DLY_TIME3” “CODA_DLY_TIME4” “CODA_DLY_TIME5” “TF_IN_OUT_WHILE_TAXIIN”<br />
 [129] “TF_IN_OUT_WHILE_TAXIIN_CODA”</p>
 </div>
+<div id="some-regular-stuff-i-do" class="section level2">
+<h2>Some regular stuff I do</h2>
+<p>load connection with above function</p>
+<p>with <code>tbl(con, sql(query))</code> I can launch a sort of “lazy connection”to PRISME/Oracle database, and work onwards with dplyr queries.</p>
+<p>to download the data append <code>%&gt;% collect()</code></p>
+<pre><code>library(ROracle)
+library(dplyr)
+library(dbplyr)
+
+
+sql &lt;- &quot;SELECT * FROM SWH_FCT.FAC_AXDS_CANCELLED_FLIGHT&quot;
+cncl_db &lt;- tbl(con, sql(sql))</code></pre>
+</div>
+<div id="resources" class="section level2">
+<h2>Resources</h2>
+<p>This article provides an example: <a href="https://technology.amis.nl/languages/r/r-and-the-oracle-database-using-dplyr-dbplyr-with-roracle-on-windows-10/" class="uri">https://technology.amis.nl/languages/r/r-and-the-oracle-database-using-dplyr-dbplyr-with-roracle-on-windows-10/</a></p>
+<p>Good luck with making this going!</p>
+</div>
