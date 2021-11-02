@@ -73,11 +73,22 @@ author: "RQ"
 date: "19. March 2019"
 output:
   bookdown::pdf_document2   # or word_document2
-bibliography: [chapter-SecMS-bib.bib]
+bibliography: [chapter-SecMS-bib.bib] # combine multiple bibs as list
 ---
 ```
 
 Rendering to pdf works as a charm. Ditto for MS Word (if needed).
+
+If you fancy to have to the date updated with every rendering, you can use *inline R* to format the date string in the YAML:
+
+````
+---
+... other YAML stuff ...
+date: "`r knitr::inline_expr("format(Sys.time(), '%d %B, %Y')")`"
+...
+---
+````
+Note the use of single and double quotes. The function `format()` allows to set the format of the date (and time) to your liking. Check the documentation for specifics, e.g. `%d` gives the date with a leading zero for single digit dates (2 -> 02), `%B` provides the full name of the month, and `%Y` the 4 digit year.
 
 ## Tables
 

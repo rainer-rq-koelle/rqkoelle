@@ -12,7 +12,7 @@ image:
 
 
 
-<p>This post was last updated on 24 April 2021.</p>
+<p>This post was last updated on 02 November 2021.</p>
 <div id="overview" class="section level1">
 <h1>Overview</h1>
 <p>This post is an aide-memoire for my future me. Throughout the recent months/years I have subsequently moved my writing to RMarkdown.
@@ -59,9 +59,16 @@ author: &quot;RQ&quot;
 date: &quot;19. March 2019&quot;
 output:
   bookdown::pdf_document2   # or word_document2
-bibliography: [chapter-SecMS-bib.bib]
+bibliography: [chapter-SecMS-bib.bib] # combine multiple bibs as list
 ---</code></pre>
 <p>Rendering to pdf works as a charm. Ditto for MS Word (if needed).</p>
+<p>If you fancy to have to the date updated with every rendering, you can use <em>inline R</em> to format the date string in the YAML:</p>
+<pre><code>---
+... other YAML stuff ...
+date: &quot;`r format(Sys.time(), &#39;%d %B, %Y&#39;)`&quot;
+...
+---</code></pre>
+<p>Note the use of single and double quotes. The function <code>format()</code> allows to set the format of the date (and time) to your liking. Check the documentation for specifics, e.g. <code>%d</code> gives the date with a leading zero for single digit dates (2 -&gt; 02), <code>%B</code> provides the full name of the month, and <code>%Y</code> the 4 digit year.</p>
 </div>
 <div id="tables" class="section level2">
 <h2>Tables</h2>
