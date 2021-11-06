@@ -1,7 +1,7 @@
 ---
 authors:
 - admin
-bio: I am a pilot, air traffic controller, and engineer, and work for EUROCONTROL, Performance Review Unit. My research interests revolve around operational air navigation and/or air transportation system performance applying a mix of data science and system analytics. In a side role I am also interested in time-critical decision making applied in aviation security and critical infrastructure protection. 
+bio: I am a pilot, air traffic controller, and engineer, and work for EUROCONTROL, Performance Review Unit. My research interests revolve around operational air navigation and/or air transportation system performance applying a mix of data science and system analytics. In a side role I am also interested in time-critical decision making applied in aviation security and critical infrastructure protection. Buy me a coffee or help me donating via my [Ko-fi](https://ko-fi.com/rainer43629) page. Thanks!
 
 education:
   courses:
@@ -54,5 +54,7 @@ Rainer is the Head Operational ANS Performance at the Performance Review Unit, E
 Amongst others, I am convinced that open data and open-source software can be a real game changer for our industry and its operational performance. Throughout the recent years I am promoting the development of an open data environment and associated research community. An exciting project my unit is currently working on is related to deploying a (pan-European) performance referenece trajectory in collaboration with crowd-sourced / community driven networks.
 
 The aforementioned approach and project introduced me also to the R/RStudio ecosystem. In this context, I am also attempting to promote the publication of results, papers, and smaller pieces (e.g. blog posts) by providing data, code, and text together adhering to the principles of reproducible research.
+
+If you like some of the content or want to support my donation goal, please consider buying me a coffee or top up the donations at https://ko-fi.com/rainer43629.
 
 Do not hesitate to get in touch with me, if you are interested in one of the topics or information you find on this page :+1:.
