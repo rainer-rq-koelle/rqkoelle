@@ -1,0 +1,77 @@
+---
+title: Happy sparklines
+author: RQ
+date: '2021-11-13'
+slug: happy-sparklines
+categories:
+  - R
+tags: []
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+
+<p>Triggered by a question on stackoverflow, I was looking into how to add a <code>sparkline</code> to a table using the <code>{formattable}</code> package.</p>
+<div id="simulate-data" class="section level2">
+<h2>Simulate data</h2>
+<p>Let’s hijack the <code>iris</code> dataset, truncate it, and add a date column to it.</p>
+<pre><code>library(dplyr)      # data crunching
+library(lubridate)  # for handling of dates
+
+##---------- for the creation of a sequence of dates define a start-date
+start_date &lt;- lubridate::ymd(&quot;2018-05-01&quot;)
+
+##---------- grab iris and truncate to Species for name, and value
+df &lt;- as_tibble(iris) %&gt;% 
+   transmute(name = Species, value = Sepal.Length) %&gt;% 
+
+##----------  add a date sequence to the data
+##----------  for this we bin the data and assign a date based on the row index (using row_number())
+
+   group_by(name) %&gt;% 
+   mutate(date = start_date + days(row_number()))</code></pre>
+<p>This gives us a “long” data frame:</p>
+<pre><code>df
+# A tibble: 150 x 3
+# Groups:   name [3]
+   name   value date      
+   &lt;fct&gt;  &lt;dbl&gt; &lt;date&gt;    
+ 1 setosa   5.1 2018-05-02
+ 2 setosa   4.9 2018-05-03
+ 3 setosa   4.7 2018-05-04
+ 4 setosa   4.6 2018-05-05
+ ...</code></pre>
+<p>The magic of <code>{sparkline}</code> is the creation of html string to represent the sparkline.</p>
+<pre><code>df %&gt;% 
+  group_by(name) %&gt;%
+  summarise(&quot;value change over time&quot; = spk_chr(value)) </code></pre>
+<p>This yields:</p>
+<pre><code># A tibble: 3 x 2
+  name       `value change over time`                                                                                               
+  &lt;fct&gt;      &lt;html&gt;                                                                                                                 
+1 setosa     &quot;&lt;span id=\&quot;htmlwidget-a4f3654304d9ef58957e\&quot; class=\&quot;sparkline html-widget\&quot;&gt;&lt;/span&gt;\n&lt;script type=\&quot;application/json~
+2 versicolor &quot;&lt;span id=\&quot;htmlwidget-af4f2905e298d6ddc412\&quot; class=\&quot;sparkline html-widget\&quot;&gt;&lt;/span&gt;\n&lt;script type=\&quot;application/json~
+3 virginica  &quot;&lt;span id=\&quot;htmlwidget-93ad2727bfe914386fa9\&quot; class=\&quot;sparkline html-widget\&quot;&gt;&lt;/span&gt;\n&lt;script type=\&quot;application/json~]</code></pre>
+<p>This “column”-string needs to be plugged into <code>formattable</code>. To properly display the sparkline, the html needs to be interpreted and properly encocded.</p>
+<pre><code>df %&gt;% 
+  group_by(name) %&gt;%
+  summarise(&quot;value change over time&quot; = spk_chr(value)) %&gt;%
+  
+##------- plug this into formattable
+  formattable() %&gt;%
+
+##------- convert html into visual
+  as.datatable() %&gt;%
+  spk_add_deps() </code></pre>
+</div>
+<div id="sparkline-in-formattable" class="section level2">
+<h2>Sparkline in Formattable</h2>
+<div class="figure">
+<img src="/post/2021-11-13-happy-sparklines_files/so-sparkline.png" alt="" />
+<p class="caption">snapshot of formattable with sparkline</p>
+</div>
+<p>P.S. You can adapt the type of the sparkline format to a barchart and other visualisations.</p>
+<p>Have fun with it!</p>
+</div>

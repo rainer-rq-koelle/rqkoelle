@@ -1,0 +1,93 @@
+---
+title: Happy sparklines
+author: RQ
+date: '2021-11-13'
+slug: happy-sparklines
+categories:
+  - R
+tags: []
+image:
+  caption: ''
+  focal_point: ''
+---
+
+Triggered by a question on stackoverflow, I was looking into how to add a `sparkline` to a table using the `{formattable}` package.
+
+## Simulate data
+
+Let's hijack the `iris` dataset, truncate it, and add a date column to it.
+
+```
+library(dplyr)      # data crunching
+library(lubridate)  # for handling of dates
+
+##---------- for the creation of a sequence of dates define a start-date
+start_date <- lubridate::ymd("2018-05-01")
+
+##---------- grab iris and truncate to Species for name, and value
+df <- as_tibble(iris) %>% 
+   transmute(name = Species, value = Sepal.Length) %>% 
+
+##----------  add a date sequence to the data
+##----------  for this we bin the data and assign a date based on the row index (using row_number())
+
+   group_by(name) %>% 
+   mutate(date = start_date + days(row_number()))
+```
+
+This gives us a "long" data frame:
+
+```
+df
+# A tibble: 150 x 3
+# Groups:   name [3]
+   name   value date      
+   <fct>  <dbl> <date>    
+ 1 setosa   5.1 2018-05-02
+ 2 setosa   4.9 2018-05-03
+ 3 setosa   4.7 2018-05-04
+ 4 setosa   4.6 2018-05-05
+ ...
+ ```
+
+The magic of `{sparkline}` is the creation of html string to represent the sparkline.
+
+```
+df %>% 
+  group_by(name) %>%
+  summarise("value change over time" = spk_chr(value)) 
+```
+
+This yields:
+
+```
+# A tibble: 3 x 2
+  name       `value change over time`                                                                                               
+  <fct>      <html>                                                                                                                 
+1 setosa     "<span id=\"htmlwidget-a4f3654304d9ef58957e\" class=\"sparkline html-widget\"></span>\n<script type=\"application/json~
+2 versicolor "<span id=\"htmlwidget-af4f2905e298d6ddc412\" class=\"sparkline html-widget\"></span>\n<script type=\"application/json~
+3 virginica  "<span id=\"htmlwidget-93ad2727bfe914386fa9\" class=\"sparkline html-widget\"></span>\n<script type=\"application/json~]
+```
+This "column"-string needs to be plugged into `formattable`. To properly display the sparkline, the html needs to be interpreted and properly encocded.
+
+```
+df %>% 
+  group_by(name) %>%
+  summarise("value change over time" = spk_chr(value)) %>%
+  
+##------- plug this into formattable
+  formattable() %>%
+
+##------- convert html into visual
+  as.datatable() %>%
+  spk_add_deps() 
+```
+
+
+## Sparkline in Formattable
+
+![snapshot of formattable with sparkline](/post/2021-11-13-happy-sparklines_files/so-sparkline.png)
+
+P.S. You can adapt the type of the sparkline format to a barchart and other visualisations.
+
+Have fun with it!
