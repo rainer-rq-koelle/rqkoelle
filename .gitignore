@@ -2,9 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
-
 blogdown
 # if a windows user, Thumbs.db instead
-.DS_Store 
+.DS_Store
 # if using Netlify
-public/ 
+public/
+_set-PAT.R
